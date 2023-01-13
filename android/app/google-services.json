@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "819375579182",
+    "project_id": "touristapp-b02be",
+    "storage_bucket": "touristapp-b02be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819375579182:android:769173a0137e268999bfbf",
+        "android_client_info": {
+          "package_name": "com.example.tourist_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819375579182-k37edcn2fp8276qhots57dgdp48em9tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCGfZGQOoLPwWuCG1a_GQT-XkgSqRX5Yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819375579182-k37edcn2fp8276qhots57dgdp48em9tm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
