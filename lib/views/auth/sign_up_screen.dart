@@ -1,12 +1,6 @@
-import '/data/models/user.dart';
-import '/data/network/data_response.dart';
-import '/data/providers/auth_provider.dart';
-import '/data/utils/enum.dart';
 import '/views/auth/verify_otp.dart';
-import '/views/shared/dropdown_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import '/views/auth/sign_in_screen.dart';
 import '/views/shared/assets_variables.dart';
 import '/views/shared/button_widget.dart';
@@ -23,10 +17,9 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController name;
-  late TextEditingController phone;
-  late TextEditingController identityNumber;
   late TextEditingController email;
-  DropdownMenuItemModel? userType;
+  late TextEditingController phone;
+  late TextEditingController age;
   late TextEditingController password;
   late TextEditingController confirmPassword;
   final _formKey = GlobalKey<FormState>();
@@ -34,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     name = TextEditingController();
     phone = TextEditingController();
-    identityNumber = TextEditingController();
+    age = TextEditingController();
     email = TextEditingController();
     password = TextEditingController();
     confirmPassword = TextEditingController();
@@ -45,9 +38,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     name.dispose();
     phone.dispose();
-    identityNumber.dispose();
+    age.dispose();
     email.dispose();
-    userType = null;
     password.dispose();
     confirmPassword.dispose();
     super.dispose();
@@ -89,6 +81,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
+                      controller: email,
+                      hintText: "Email",
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          return null;
+                        }
+                        return "This field is required";
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: TextFieldWidget(
                       controller: phone,
                       hintText: "Phone",
                       validator: (value) {
@@ -101,40 +105,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
-                      controller: identityNumber,
-                      hintText: "Identity card number",
+                      controller: age,
+                      hintText: "Age",
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
                         return "This field is required";
                       }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(SharedValues.padding),
-                  child: TextFieldWidget(
-                      controller: email,
-                      hintText: "Email",
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          return null;
-                        }
-                        return "This field is required";
-                      }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(SharedValues.padding),
-                  child: DropdownFieldWidget(
-                    keyDropDown: GlobalKey(),
-                    items: [
-                      DropdownMenuItemModel(id: 1, text: "Employee"),
-                      DropdownMenuItemModel(id: 2, text: "User")
-                    ],
-                    hintText: "User Type",
-                    onChanged: (value) {
-                      userType = value;
-                    },
-                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
@@ -170,37 +148,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: ButtonWidget(
                     minWidth: double.infinity,
+                    withBorder: false,
                     onPressed: () async {
-                      final user = User(
-                          id: DateTime.now().millisecondsSinceEpoch,
-                          name: name.text,
-                          email: email.text,
-                          phone: phone.text,
-                          identityNumber: identityNumber.text,
-                          userType: userType?.text == UserType.user.name
-                              ? UserType.user
-                              : UserType.employee,
-                          password: password.text);
-                      Result result = await Provider.of<AuthProvider>(context,
-                              listen: false)
-                          .sendCode(user);
-                      if (result is Success) {
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const VerifyOTP(),
-                            ),
-                            (_) => false);
-                      }
-                      else if(result is Error){
-                        // ignore: use_build_context_synchronously
-                        SharedComponents.showSnackBar(
-                            context, "Error occurred !!",
-                            backgroundColor:
-                            // ignore: use_build_context_synchronously
-                            Theme.of(context).colorScheme.error);
-                      }
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VerifyOTP(),
+                          ),
+                              (_) => false);
+                      //
+                      // final user = User(
+                      //     id: DateTime.now().millisecondsSinceEpoch,
+                      //     name: name.text,
+                      //     email: email.text,
+                      //     phone: phone.text,
+                      //     age: int.tryParse(age.text),
+                      //     password: password.text);
+                      // Result result = await Provider.of<AuthProvider>(context,
+                      //         listen: false)
+                      //     .sendCode(user);
+                      // if (result is Success) {
+                      //   // ignore: use_build_context_synchronously
+                      //   Navigator.pushAndRemoveUntil(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => const VerifyOTP(),
+                      //       ),
+                      //       (_) => false);
+                      // }
+                      // else if(result is Error){
+                      //   // ignore: use_build_context_synchronously
+                      //   SharedComponents.showSnackBar(
+                      //       context, "Error occurred !!",
+                      //       backgroundColor:
+                      //       // ignore: use_build_context_synchronously
+                      //       Theme.of(context).colorScheme.error);
+                      // }
                     },
                     child: Text(
                       "Sign up",

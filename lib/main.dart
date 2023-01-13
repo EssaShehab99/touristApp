@@ -1,3 +1,6 @@
+import 'package:tourist_app/views/auth/sign_in_screen.dart';
+import 'package:tourist_app/views/home/home_page.dart';
+
 import '/data/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'data/di/service_locator.dart';
 import 'data/providers/app_state_manager.dart';
 import 'firebase_options.dart';
-import 'views/auth/auth_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
         // home: const TestScreen(),
-        home:  const AuthScreen(),
+        home:  const SignInScreen(),
         // home: const MainScreen(),
         // home: const VerifyOTP(),
       ),

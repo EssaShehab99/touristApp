@@ -1,9 +1,10 @@
+import 'package:tourist_app/views/home/home_page.dart';
+
 import '/data/network/data_response.dart';
 import '/data/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/views/auth/sign_up_screen.dart';
-import '/views/home/main_screen.dart';
 import '/views/shared/button_widget.dart';
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
@@ -101,21 +102,14 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     horizontal: SharedValues.padding),
                 child: ButtonWidget(
                   minWidth: double.infinity,
+                  withBorder: false,
                   onPressed: () async {
-               Result result=await     Provider.of<AuthProvider>(context,listen: false).verifyCode(controllers.join());
-                    if(result is Success) {
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MainScreen(),
-                        ));
-                    }else{
-                      // ignore: use_build_context_synchronously
-                      SharedComponents.showSnackBar(context, "OTP not Correct");
-                    }
-
-                    // if (_formKey.currentState!.validate()) {}
+                          builder: (context) => const HomeScreen(),
+                        ),
+                            (_) => false);
                   },
                   child: Text(
                     "Verify",

@@ -11,6 +11,7 @@ class SharedComponents {
   SharedComponents._privateConstructor();
   static SharedComponents get instance => _instance;
 
+
   static Widget appBar( {required String title,String? details,bool? withBackBtn,Widget? leading}) => Builder(
       builder: (context) => Container(
         width: double.infinity,
@@ -24,27 +25,27 @@ class SharedComponents {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if(details==null)
-            SizedBox(
-              height: 50,
-              child: withBackBtn == false
-                  ? null
-                  : IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back)),
-            ),
+              SizedBox(
+                height: 50,
+                child: withBackBtn == false
+                    ? null
+                    : IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back)),
+              ),
             if(details!=null)
-            Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(SharedValues.padding * 2,
-                      0, SharedValues.padding * 2, SharedValues.padding),
-                  child: Align(
-                    alignment: AlignmentDirectional.bottomStart,
-                    child: Text(
-                      details,
-                      style: Theme.of(context).textTheme.headline2,
+              Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(SharedValues.padding * 2,
+                        0, SharedValues.padding * 2, SharedValues.padding),
+                    child: Align(
+                      alignment: AlignmentDirectional.bottomStart,
+                      child: Text(
+                        details,
+                        style: Theme.of(context).textTheme.headline2,
+                      ),
                     ),
-                  ),
-                )),
+                  )),
             Expanded(
                 child: Row(
                   children: [

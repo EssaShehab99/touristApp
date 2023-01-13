@@ -1,8 +1,9 @@
+import 'package:tourist_app/views/home/home_page.dart';
+
 import '/views/shared/assets_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '/views/auth/sign_up_screen.dart';
-import '/views/home/main_screen.dart';
 import '/views/shared/button_widget.dart';
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
@@ -51,7 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     alignment: Alignment.center,
                     child: SizedBox(
                         height: 200,
-                        child: SvgPicture.asset(AssetsVariable.lock))),
+                        child: SvgPicture.asset(AssetsVariable.auth))),
                 const SizedBox(height: SharedValues.padding),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
@@ -61,7 +62,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       hintText: "User Id"),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(SharedValues.padding),
+                  padding: const EdgeInsets.symmetric(horizontal:SharedValues.padding),
                   child: TextFieldWidget(
                       controller: password, hintText: "Password"),
                 ),
@@ -70,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: TextButton(
                     onPressed: () {},
                     child: Text("Forget password?",
-                        style: Theme.of(context).textTheme.headline3),
+                        style: Theme.of(context).textTheme.headline5),
                   ),
                 ),
                 const SizedBox(height: SharedValues.padding),
@@ -79,14 +80,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       horizontal: SharedValues.padding),
                   child: ButtonWidget(
                     minWidth: double.infinity,
+                    withBorder: false,
                     onPressed: () async {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MainScreen(),
-                          ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 
-                      // if (_formKey.currentState!.validate()) {}
                     },
                     child: Text(
                       "Sign in",

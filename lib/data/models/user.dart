@@ -5,27 +5,24 @@ class User {
   String name;
   String email;
   String phone;
-  String identityNumber;
-  UserType userType;
+  int? age;
   String password;
 
   User(
       {required this.id,
-     required this.name,
+      required this.name,
       required this.email,
       required this.phone,
-      required this.identityNumber,
-      required this.userType,
+      required this.age,
       required this.password});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: int.parse(json["id"]),
+      id: json["id"],
       name: json["name"],
       email: json["email"],
       phone: json["phone"],
-      identityNumber: json["identityNumber"],
-      userType: json["userType"]=="user"?UserType.user:UserType.employee,
+      age: json["age"],
       password: json["password"],
     );
   }
@@ -36,10 +33,10 @@ class User {
       "name": name,
       "email": email,
       "phone": phone,
-      "identityNumber": identityNumber,
-      "userType": userType.name,
+      "age": age,
       "password": password,
     };
   }
+//
 
 }
