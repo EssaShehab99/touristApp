@@ -27,8 +27,6 @@ class _AreasScreenState extends State<AreasScreen> {
             itemBuilder: (context, index) => InkWell(
               borderRadius: BorderRadius.circular(SharedValues.borderRadius),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelperScreen()));
               },
               child: Container(
                 height: 120,
