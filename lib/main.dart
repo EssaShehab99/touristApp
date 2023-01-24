@@ -1,5 +1,6 @@
 import 'package:tourist_app/views/auth/sign_in_screen.dart';
 import 'package:tourist_app/views/home/home_page.dart';
+import 'package:tourist_app/views/onboarding/onboarding_screen.dart';
 
 import '/data/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
         // home: const TestScreen(),
-        home:  const SignInScreen(),
+        home:  const OnboardingScreen(),
+        // home:  const SignInScreen(),
         // home: const MainScreen(),
         // home: const VerifyOTP(),
       ),

@@ -113,53 +113,6 @@ class SharedComponents {
       ),
     );
   }
-  // static Future<dynamic> showBottomSheet(BuildContext context,
-  //     {double? height, Widget? child}) {
-  //   final mediaQuery = MediaQuery.of(context);
-  //   return showModalBottomSheet(
-  //     enableDrag: true,
-  //     isScrollControlled: true,
-  //     backgroundColor: Colors.transparent,
-  //     elevation: 0,
-  //     shape: const RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.vertical(
-  //             top: Radius.circular(SharedValues.borderRadius * 2))),
-  //     context: context,
-  //     builder: (context) => BackdropFilter(
-  //       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-  //       child: Container(
-  //         padding:
-  //         EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-  //         height: (mediaQuery.orientation == Orientation.portrait)
-  //             ? height ?? (mediaQuery.size.height * 0.75)
-  //             : mediaQuery.size.height,
-  //         decoration: BoxDecoration(
-  //           color: Theme.of(context).scaffoldBackgroundColor,
-  //           borderRadius: const BorderRadius.vertical(
-  //               top: Radius.circular(SharedValues.borderRadius)),
-  //         ),
-  //         child: Column(
-  //           children: [
-  //             Padding(
-  //               padding: const EdgeInsets.symmetric(
-  //                   vertical: SharedValues.padding * 2),
-  //               child: Container(
-  //                 width: 50,
-  //                 height: 5,
-  //                 decoration: BoxDecoration(
-  //                     color: Theme.of(context).dividerColor,
-  //                     borderRadius:
-  //                     BorderRadius.circular(SharedValues.borderRadius)),
-  //               ),
-  //             ),
-  //             Expanded(child: child ?? const SizedBox.shrink())
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
 
   static showSnackBar(context, String text, {Color? backgroundColor}) {
     return WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -180,5 +133,41 @@ class SharedComponents {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ));
     });
+  }
+  static Widget indicator(int length,int selected) {
+    return Builder(
+        builder: (context) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(length, (index) {
+              if (index == selected) {
+                return Container(
+                  width: 40,
+                  height: 10,
+                  margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Theme
+                          .of(context)
+                          .primaryColor),
+                );
+              }
+
+           else {
+                return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                child: CircleAvatar(
+                  radius: 5,
+                  backgroundColor: Theme
+                      .of(context)
+                      .colorScheme
+                      .primary,
+                ),
+              );
+              }
+            }).toList(),
+          );
+        }
+    );
   }
 }

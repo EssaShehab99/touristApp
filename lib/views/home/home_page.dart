@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           SharedComponents.appBar(
-            title: "Tour Guide",
+            title: "VoyageMate",
             withBackBtn: false,
           ),
           const SizedBox(height: SharedValues.padding * 3),
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(
                                 builder: (context) => AreasScreen()));
                       },
-                      text: "Tourist Areas",
+                      text: "VoyageMate",
                       image: AssetsVariable.areas),
                 ),
               ],
