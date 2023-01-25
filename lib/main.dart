@@ -1,4 +1,5 @@
 import 'package:tourist_app/views/auth/sign_in_screen.dart';
+import 'package:tourist_app/views/events/add_event.dart';
 import 'package:tourist_app/views/home/home_page.dart';
 import 'package:tourist_app/views/onboarding/onboarding_screen.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
         // home: const TestScreen(),
-        home:  const OnboardingScreen(),
+        home:  const AddEvent(),
         // home:  const SignInScreen(),
         // home: const MainScreen(),
         // home: const VerifyOTP(),
