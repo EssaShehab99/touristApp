@@ -24,8 +24,9 @@ class _AddServiceState extends State<AddService> {
   List<String> images = [];
   @override
   void initState() {
-    name = TextEditingController();
-    details = TextEditingController();
+    name = TextEditingController(text: widget.service?.name);
+    details = TextEditingController(text: widget.service?.details);
+    images=widget.service?.images??[];
     super.initState();
   }
   @override
@@ -71,14 +72,27 @@ class _AddServiceState extends State<AddService> {
                 padding: const EdgeInsets.all(SharedValues.padding),
                 child: ButtonWidget(
                   onPressed: () async {
-                    Result result=await provider.addService(Service(
-                        id: DateTime.now().millisecondsSinceEpoch,
-                        name: name.text,
-                        details: details.text,
-                        userID: Provider.of<AuthProvider>(context, listen: false)
-                            .user!
-                            .id!,
-                        images: images));
+                    Result result;
+                    if(widget.service==null){
+                      result=await provider.addService(Service(
+                          id: DateTime.now().millisecondsSinceEpoch,
+                          name: name.text,
+                          details: details.text,
+                          userID: Provider.of<AuthProvider>(context, listen: false)
+                              .user!
+                              .id!,
+                          images: images));
+                    }else{
+                      result=await provider.updateService(Service(
+                          id: widget.service!.id,
+                          name: name.text,
+                          details: details.text,
+                          userID: Provider.of<AuthProvider>(context, listen: false)
+                              .user!
+                              .id!,
+                          images: images));
+
+                    }
                     if (result is Success) {
                       // ignore: use_build_context_synchronously
                       SharedComponents.showSnackBar(
@@ -86,7 +100,8 @@ class _AddServiceState extends State<AddService> {
                           widget.service == null
                               ? "Service added success"
                               : "Service edit success");
-                    } else {
+                    }
+                    else {
                       // ignore: use_build_context_synchronously
                       SharedComponents.showSnackBar(
                         // ignore: use_build_context_synchronously
@@ -99,7 +114,7 @@ class _AddServiceState extends State<AddService> {
                   },
                   withBorder: false,
                   child: Text(
-                    "Save",
+                    widget.service==null?"Save":"Edit",
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),

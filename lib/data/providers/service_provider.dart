@@ -16,6 +16,20 @@ class ServiceProvider extends ChangeNotifier {
     }
     return result;
   }
+  Future<Result> updateService(Service service) async {
+    Result result = await _serviceRepository.updateService(service);
+    if(result is Success){
+      await getServices();
+    }
+    return result;
+  }
+  Future<Result> deleteService(int id) async {
+    Result result = await _serviceRepository.deleteService(id);
+    if(result is Success){
+      await getServices();
+    }
+    return result;
+  }
 
   Future<Result> addHelper(Helper helper) async {
     Result result = await _serviceRepository.addHelper(helper);
@@ -25,6 +39,20 @@ class ServiceProvider extends ChangeNotifier {
     return result;
   }
 
+  Future<Result> updateHelper(Helper helper) async {
+    Result result = await _serviceRepository.updateHelper(helper);
+    if(result is Success){
+      await getHelpers();
+    }
+    return result;
+  }
+  Future<Result> deleteHelper(int id) async {
+    Result result = await _serviceRepository.deleteHelper(id);
+    if(result is Success){
+      await getHelpers();
+    }
+    return result;
+  }
   Future<Result> getServices() async {
     Result result = await _serviceRepository.getServices();
     if(result is Success){

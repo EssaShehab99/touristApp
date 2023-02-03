@@ -36,7 +36,7 @@ class _HelperProfileScreenState extends State<HelperProfileScreen> {
             Align(
               alignment: AlignmentDirectional.topCenter,
               child: Text(
-                "Bara Ali Ahmed",
+                widget.helper.name,
                 style: Theme.of(context)
                     .textTheme
                     .headline2

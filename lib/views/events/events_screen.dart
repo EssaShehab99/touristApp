@@ -1,4 +1,4 @@
-import 'package:tourist_app/views/helper/helper_screen.dart';
+import 'package:tourist_app/views/helper/view_helper.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';

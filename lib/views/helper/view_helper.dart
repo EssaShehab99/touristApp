@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:provider/provider.dart';
+import 'package:tourist_app/data/models/helper.dart';
 import 'package:tourist_app/data/models/service.dart';
 import 'package:tourist_app/data/network/data_response.dart';
 import 'package:tourist_app/data/providers/service_provider.dart';
-import 'package:tourist_app/views/helper/view_helper.dart';
-import 'package:tourist_app/views/services/add_service.dart';
+import 'package:tourist_app/views/helper/add_helper.dart';
+import 'package:tourist_app/views/helper/helper_profile_screen.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
 import 'package:tourist_app/views/shared/image_network.dart';
 
@@ -14,20 +14,20 @@ import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
 import 'package:flutter/material.dart';
 
-class ViewServices extends StatefulWidget {
-  const ViewServices({Key? key}) : super(key: key);
+class ViewHelper extends StatefulWidget {
+  const ViewHelper({Key? key, required this.service}) : super(key: key);
+  final Service service;
 
   @override
-  State<ViewServices> createState() => _ViewServicesState();
+  State<ViewHelper> createState() => _ViewHelperState();
 }
 
-class _ViewServicesState extends State<ViewServices> {
+class _ViewHelperState extends State<ViewHelper> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SharedComponents.showOverlayLoading(context, () async {
-        await Provider.of<ServiceProvider>(context, listen: false)
-            .getServices();
+        await Provider.of<ServiceProvider>(context, listen: false).getHelpers();
       });
     });
     super.initState();
@@ -40,10 +40,10 @@ class _ViewServicesState extends State<ViewServices> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Services"),
+          SharedComponents.appBar(title: "Helpers"),
           Expanded(
-              child: Selector<ServiceProvider, List<Service>>(
-            selector: (p0, p1) => p1.services,
+              child: Selector<ServiceProvider, List<Helper>>(
+            selector: (p0, p1) => p1.helpers(widget.service.id),
             builder: (context, value, _) => ListView.builder(
               padding: const EdgeInsets.all(SharedValues.padding),
               itemCount: value.length,
@@ -53,8 +53,8 @@ class _ViewServicesState extends State<ViewServices> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ViewHelper(
-                                service: value[index],
+                          builder: (context) => HelperProfileScreen(
+                                helper: value[index],
                               )));
                 },
                 onLongPress: () {
@@ -70,8 +70,9 @@ class _ViewServicesState extends State<ViewServices> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            AddService(service: value[index])));
+                                        builder: (context) => AddHelper(
+                                            serviceID: value[index].serviceID,
+                                            helper: value[index])));
                               },
                               child: Text(
                                 "Edit",
@@ -90,7 +91,7 @@ class _ViewServicesState extends State<ViewServices> {
                                     listen: false);
 
                                 Result result = await provider
-                                    .deleteService(value[index].id);
+                                    .deleteHelper(value[index].id);
 
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
@@ -151,14 +152,14 @@ class _ViewServicesState extends State<ViewServices> {
                             Expanded(
                                 child: Align(
                                     alignment: AlignmentDirectional.centerStart,
-                                    child: Text(value[index].details,
+                                    child: Text(value[index].email,
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium))),
                           ],
                         ),
                       )),
-                      if (value[index].images?.isNotEmpty ?? false)
+                      if (value[index].images.isNotEmpty)
                         Container(
                           width: 100,
                           height: double.infinity,
@@ -189,8 +190,11 @@ class _ViewServicesState extends State<ViewServices> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddService()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        AddHelper(serviceID: widget.service.id)));
           },
           child: const Icon(Icons.add)),
     ));
