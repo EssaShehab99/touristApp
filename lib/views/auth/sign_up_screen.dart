@@ -3,7 +3,11 @@ import 'package:tourist_app/data/models/user.dart';
 import 'package:tourist_app/data/network/data_response.dart';
 import 'package:tourist_app/data/network/http_exception.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
+import 'package:tourist_app/data/utils/enum.dart';
+import 'package:tourist_app/data/utils/extension.dart';
 import 'package:tourist_app/data/utils/utils.dart';
+import 'package:tourist_app/views/shared/constants.dart';
+import 'package:tourist_app/views/shared/dropdown_field_widget.dart';
 
 import '/views/auth/verify_otp.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +33,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController age;
   late TextEditingController password;
   late TextEditingController confirmPassword;
+  DropdownMenuItemModel? city;
+  List<DropdownMenuItemModel> cities = Constants.cities
+      .map((e) =>
+      DropdownMenuItemModel(id: Constants.cities.indexOf(e), text: e))
+      .toList();
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -38,6 +47,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     email = TextEditingController();
     password = TextEditingController();
     confirmPassword = TextEditingController();
+    // city =
+    //     cities.firstWhereOrNull((element) => element.text == widget.user?.city);
     super.initState();
   }
 
@@ -114,6 +125,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
+                  child: DropdownFieldWidget(
+                    hintText: "City",
+                    items: cities,
+                    value: city,
+                    onChanged: (value) {
+                      city = value;
+                    },
+                    validator: (value) {
+                      if (value != null) {
+                        return null;
+                      }
+                      return "This field is required";
+                    },
+                    keyDropDown: GlobalKey(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: age,
                       hintText: "Age",
@@ -167,7 +196,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             email: email.text,
                             phone: phone.text,
                             age: int.parse(age.text),
-                            password: password.text);
+                            password: password.text,
+                            userRole: UserRole.user,
+                            city: city!.text);
                         Result result = await Provider.of<AuthProvider>(context,
                                 listen: false)
                             .sendCode(user,false);

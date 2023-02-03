@@ -7,5 +7,7 @@ class Endpoints {
   static const users = 'users';
   static const services = 'services';
   static const helpers = 'helpers';
+  static const areas = 'areas';
+  static const event = 'events';
 
 }

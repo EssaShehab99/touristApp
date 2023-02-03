@@ -1,35 +1,32 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/service.dart';
+import 'package:tourist_app/data/models/area.dart';
 import 'package:tourist_app/data/network/data_response.dart';
+import 'package:tourist_app/data/providers/area_provider.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/providers/service_provider.dart';
 import 'package:tourist_app/data/utils/enum.dart';
-import 'package:tourist_app/views/helper/view_helper.dart';
-import 'package:tourist_app/views/services/add_service.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
-import 'package:tourist_app/views/shared/image_network.dart';
+import 'package:tourist_app/views/tourist_areas/add_area.dart';
+import 'package:tourist_app/views/tourist_areas/area_details.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
 import 'package:flutter/material.dart';
 
-class ViewServices extends StatefulWidget {
-  const ViewServices({Key? key}) : super(key: key);
+class ViewAreas extends StatefulWidget {
+  const ViewAreas({Key? key}) : super(key: key);
 
   @override
-  State<ViewServices> createState() => _ViewServicesState();
+  State<ViewAreas> createState() => _ViewAreasState();
 }
 
-class _ViewServicesState extends State<ViewServices> {
+class _ViewAreasState extends State<ViewAreas> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SharedComponents.showOverlayLoading(context, () async {
-        await Provider.of<ServiceProvider>(context, listen: false)
-            .getServices();
+        await Provider.of<AreaProvider>(context, listen: false).getAreas();
       });
     });
     super.initState();
@@ -43,10 +40,10 @@ class _ViewServicesState extends State<ViewServices> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Services"),
+          SharedComponents.appBar(title: "Tourist Areas"),
           Expanded(
-              child: Selector<ServiceProvider, List<Service>>(
-            selector: (p0, p1) => p1.services,
+              child: Selector<AreaProvider, List<Area>>(
+            selector: (p0, p1) => p1.areas,
             builder: (context, value, _) => ListView.builder(
               padding: const EdgeInsets.all(SharedValues.padding),
               itemCount: value.length,
@@ -56,9 +53,8 @@ class _ViewServicesState extends State<ViewServices> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ViewHelper(
-                                service: value[index],
-                              )));
+                        builder: (context) => AreaDetails(area: value[index]),
+                      ));
                 },
                 onLongPress: () {
                   SharedComponents.showBottomSheet(context,
@@ -74,7 +70,7 @@ class _ViewServicesState extends State<ViewServices> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            AddService(service: value[index])));
+                                            AddArea(area: value[index])));
                               },
                               child: Text(
                                 "Edit",
@@ -88,12 +84,12 @@ class _ViewServicesState extends State<ViewServices> {
                               withBorder: false,
                               minWidth: double.infinity,
                               onPressed: () async {
-                                final provider = Provider.of<ServiceProvider>(
+                                final provider = Provider.of<AreaProvider>(
                                     context,
                                     listen: false);
 
-                                Result result = await provider
-                                    .deleteService(value[index].id);
+                                Result result =
+                                    await provider.deleteArea(value[index].id);
 
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
@@ -120,7 +116,7 @@ class _ViewServicesState extends State<ViewServices> {
                       ));
                 },
                 child: Container(
-                  height: 120,
+                  height: 130,
                   width: double.infinity,
                   padding: const EdgeInsets.all(SharedValues.padding),
                   margin: const EdgeInsets.all(SharedValues.padding),
@@ -138,30 +134,59 @@ class _ViewServicesState extends State<ViewServices> {
                   child: Row(
                     children: [
                       Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(SharedValues.padding),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                                child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
+                                child: Row(
+                              children: [
+                                Container(
+                                  height: 20,
+                                  width: 60,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.primary,
+                                      borderRadius: BorderRadius.circular(
+                                          SharedValues.borderRadius)),
+                                  child: Text(value[index].city,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium
+                                          ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .background)),
+                                ),
+                                Expanded(
+                                    child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: SharedValues.padding),
                                     child: Text(value[index].name,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline5
-                                            ?.copyWith(fontSize: 16)))),
+                                            .headline3
+                                            ?.copyWith(
+                                                color: Theme.of(context).primaryColor,
+                                                fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis),
+                                  ),
+                                )),
+                              ],
+                            )),
                             Expanded(
+                                flex: 2,
                                 child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
+                                  alignment: AlignmentDirectional.centerStart,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.all(SharedValues.padding),
                                     child: Text(value[index].details,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium))),
+                                        style:
+                                            Theme.of(context).textTheme.labelMedium),
+                                  ),
+                                )),
                           ],
                         ),
-                      )),
-                      if (value[index].images?.isNotEmpty ?? false)
+                      ),
+                      if (value[index].images.isNotEmpty)
                         Container(
                           width: 100,
                           height: double.infinity,
@@ -179,10 +204,10 @@ class _ViewServicesState extends State<ViewServices> {
                             borderRadius: BorderRadius.circular(
                                 SharedValues.borderRadius),
                           ),
-                          child:  ClipRRect(
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(SharedValues.borderRadius),
                             child: Image.memory(
-                                base64Decode(value[index].images!.first),fit: BoxFit.cover),
+                                base64Decode(value[index].images.first),fit: BoxFit.cover),
                           ),
                         )
                     ],
@@ -196,13 +221,11 @@ class _ViewServicesState extends State<ViewServices> {
       floatingActionButton: authProvider?.userRole != UserRole.admin
           ? null
           : FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddService()));
-              },
-              child: const Icon(Icons.add)),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AddArea()));
+          },
+          child: const Icon(Icons.add)),
     ));
   }
 }

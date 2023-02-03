@@ -1,7 +1,7 @@
-class AssetsVariable {
-  AssetsVariable._privateConstructor();
-  static final AssetsVariable _instance = AssetsVariable._privateConstructor();
-  static AssetsVariable get instance => _instance;
+  class AssetsVariable {
+    AssetsVariable._privateConstructor();
+    static final AssetsVariable _instance = AssetsVariable._privateConstructor();
+    static AssetsVariable get instance => _instance;
 
   //images
   static const String testImage="assets/images/test-image.jpg";

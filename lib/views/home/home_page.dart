@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/views/events/events_screen.dart';
+import 'package:tourist_app/data/providers/auth_provider.dart';
+import 'package:tourist_app/views/auth/sign_in_screen.dart';
+import 'package:tourist_app/views/events/view_events.dart';
 import 'package:tourist_app/views/services/view_services.dart';
-import 'package:tourist_app/views/tourist_areas/areas_screen.dart';
+import 'package:tourist_app/views/tourist_areas/view_areas.dart';
 import '/views/shared/assets_variables.dart';
 import '/views/shared/button_widget.dart';
 import '/views/shared/shared_components.dart';
@@ -26,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SharedComponents.appBar(
             title: "VoyageMate",
             withBackBtn: false,
+            withSignOut: true,
           ),
           const SizedBox(height: SharedValues.padding * 3),
           Expanded(
@@ -49,9 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AreasScreen()));
+                                builder: (context) => ViewAreas()));
                       },
-                      text: "VoyageMate",
+                      text: "Tourist Areas",
                       image: AssetsVariable.areas),
                 ),
               ],
@@ -67,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EventsScreen()));
+                                builder: (context) => ViewEvents()));
                       },
                       text: "Events",
                       image: AssetsVariable.events),

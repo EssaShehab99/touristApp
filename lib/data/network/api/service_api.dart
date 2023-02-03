@@ -141,9 +141,11 @@ class ServiceApi {
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getServices() async {
+      getServices({String? city}) async {
     try {
-      final response = await _fireStore.collection(Endpoints.services).get();
+      final response = await _fireStore.collection(Endpoints.services)
+          .where(city==null?"":"city",isEqualTo: city)
+          .get();
       return response.docs;
     } catch (e) {
       rethrow;

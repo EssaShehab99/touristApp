@@ -1,21 +1,22 @@
-class Service {
+class Area{
   int id;
   String name;
   String details;
-  int userID;
   String city;
-  List<String>? images;
+  int userID;
+  List<String> images;
 
-  Service({required this.id, required this.name,required  this.details ,required this.city,required this.userID,  this.images});
+  Area({required this.id, required this.name, required this.details, required this.images, required this.city, required this.userID});
 
-  factory Service.fromJson(Map<String, dynamic> json) {
-    return Service(
+
+  factory Area.fromJson(Map<String, dynamic> json) {
+    return Area(
       id: json["id"],
       name: json["name"],
       details: json["details"],
-      images: List<String>.from(json["images"]),
       userID: json["userID"],
       city: json["city"],
+      images: List.from(json["images"]),
     );
   }
 
@@ -29,5 +30,4 @@ class Service {
       "city": city,
     };
   }
-
 }

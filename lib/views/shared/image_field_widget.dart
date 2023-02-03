@@ -13,12 +13,13 @@ class ImageFieldWidget extends StatefulWidget {
     this.hintText,
     this.values,
     this.onChanged,
-    this.max,
+    this.max, this.validator,
   }) : super(key: key);
   final List<String>? values;
   final String? hintText;
   final ValueChanged<String>? onChanged;
   final int? max;
+  final FormFieldValidator<List<String>?>? validator;
 
   @override
   State<ImageFieldWidget> createState() => _ImageFieldWidgetState();
@@ -44,6 +45,8 @@ class _ImageFieldWidgetState extends State<ImageFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return FormField(
+        validator: widget.validator,
+      initialValue: widget.values,
       builder: (field) => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,6 +120,7 @@ class _ImageFieldWidgetState extends State<ImageFieldWidget> {
             ),
           ),
           if (field.hasError) ...[
+            const SizedBox(height: SharedValues.padding),
             Container(
               color: Theme.of(context).colorScheme.error,
               height: 1,

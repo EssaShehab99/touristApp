@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/network/data_response.dart';
+import 'package:tourist_app/data/network/http_exception.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
 import 'package:tourist_app/data/utils/utils.dart';
 
@@ -77,7 +78,13 @@ class _SignInScreenState extends State<SignInScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal:SharedValues.padding),
                   child: TextFieldWidget(
-                      controller: password, hintText: "Password"),
+                      controller: password, hintText: "Password",
+                      validator: (value) {
+                if (value != null && value.isNotEmpty) {
+                return null;
+                }
+                return "This field is required";
+                }),
                 ),
                 Align(
                   alignment: AlignmentDirectional.centerStart,

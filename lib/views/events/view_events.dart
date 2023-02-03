@@ -1,35 +1,30 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/service.dart';
+import 'package:tourist_app/data/models/event.dart';
 import 'package:tourist_app/data/network/data_response.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/providers/service_provider.dart';
+import 'package:tourist_app/data/providers/event_provider.dart';
 import 'package:tourist_app/data/utils/enum.dart';
-import 'package:tourist_app/views/helper/view_helper.dart';
-import 'package:tourist_app/views/services/add_service.dart';
+import 'package:tourist_app/views/events/add_event.dart';
+import 'package:intl/intl.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
-import 'package:tourist_app/views/shared/image_network.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
 import 'package:flutter/material.dart';
 
-class ViewServices extends StatefulWidget {
-  const ViewServices({Key? key}) : super(key: key);
+class ViewEvents extends StatefulWidget {
+  const ViewEvents({Key? key}) : super(key: key);
 
   @override
-  State<ViewServices> createState() => _ViewServicesState();
+  State<ViewEvents> createState() => _ViewEventsState();
 }
 
-class _ViewServicesState extends State<ViewServices> {
+class _ViewEventsState extends State<ViewEvents> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SharedComponents.showOverlayLoading(context, () async {
-        await Provider.of<ServiceProvider>(context, listen: false)
-            .getServices();
+        await Provider.of<EventProvider>(context, listen: false).getEvents();
       });
     });
     super.initState();
@@ -43,23 +38,16 @@ class _ViewServicesState extends State<ViewServices> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Services"),
+          SharedComponents.appBar(title: "Events"),
           Expanded(
-              child: Selector<ServiceProvider, List<Service>>(
-            selector: (p0, p1) => p1.services,
+              child: Selector<EventProvider, List<Event>>(
+            selector: (p0, p1) => p1.events,
             builder: (context, value, _) => ListView.builder(
               padding: const EdgeInsets.all(SharedValues.padding),
               itemCount: value.length,
               itemBuilder: (context, index) => InkWell(
                 borderRadius: BorderRadius.circular(SharedValues.borderRadius),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ViewHelper(
-                                service: value[index],
-                              )));
-                },
+                onTap: () {},
                 onLongPress: () {
                   SharedComponents.showBottomSheet(context,
                       child: Column(
@@ -74,7 +62,7 @@ class _ViewServicesState extends State<ViewServices> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            AddService(service: value[index])));
+                                            AddEvent(event: value[index])));
                               },
                               child: Text(
                                 "Edit",
@@ -88,12 +76,12 @@ class _ViewServicesState extends State<ViewServices> {
                               withBorder: false,
                               minWidth: double.infinity,
                               onPressed: () async {
-                                final provider = Provider.of<ServiceProvider>(
+                                final provider = Provider.of<EventProvider>(
                                     context,
                                     listen: false);
 
                                 Result result = await provider
-                                    .deleteService(value[index].id);
+                                    .deleteEvent(value[index].id);
 
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
@@ -102,12 +90,12 @@ class _ViewServicesState extends State<ViewServices> {
                                 } else {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
-                                      // ignore: use_build_context_synchronously
+                                    // ignore: use_build_context_synchronously
                                       context,
                                       "Error occurred !!",
                                       backgroundColor:
-                                          // ignore: use_build_context_synchronously
-                                          Theme.of(context).colorScheme.error);
+                                      // ignore: use_build_context_synchronously
+                                      Theme.of(context).colorScheme.error);
                                 }
                               },
                               child: Text(
@@ -120,7 +108,7 @@ class _ViewServicesState extends State<ViewServices> {
                       ));
                 },
                 child: Container(
-                  height: 120,
+                  height: 150,
                   width: double.infinity,
                   padding: const EdgeInsets.all(SharedValues.padding),
                   margin: const EdgeInsets.all(SharedValues.padding),
@@ -135,56 +123,70 @@ class _ViewServicesState extends State<ViewServices> {
                             spreadRadius: 1,
                             blurRadius: 5)
                       ]),
-                  child: Row(
+                  child: Column(
                     children: [
                       Expanded(
+                          child: Row(
+                        children: [
+                          Container(
+                            height: 20,
+                            width: 60,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.primary,
+                                borderRadius: BorderRadius.circular(
+                                    SharedValues.borderRadius)),
+                            child: FittedBox(
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(value[index].city,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background)),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                              child: Center(
+                            child: Text(value[index].name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline3
+                                    ?.copyWith(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.bold)),
+                          )),
+                        ],
+                      )),
+                      Expanded(
+                          flex: 3,
+                          child: Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Padding(
+                              padding: const EdgeInsets.all(SharedValues.padding),
+                              child: Text(
+                                value[index].details,
+                                style: Theme.of(context).textTheme.labelMedium,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                          )),
+                      Expanded(
                           child: Padding(
-                        padding: const EdgeInsets.all(SharedValues.padding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Text(value[index].name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5
-                                            ?.copyWith(fontSize: 16)))),
-                            Expanded(
-                                child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Text(value[index].details,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium))),
-                          ],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: SharedValues.padding),
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                              "period: ${DateFormat("yyyy-MM-dd").format(value[index].from)}/ ${DateFormat("yyyy-MM-dd").format(value[index].to)}",
+                              style: Theme.of(context).textTheme.subtitle2),
                         ),
                       )),
-                      if (value[index].images?.isNotEmpty ?? false)
-                        Container(
-                          width: 100,
-                          height: double.infinity,
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Theme.of(context)
-                                      .shadowColor
-                                      .withOpacity(0.1),
-                                  blurRadius: 3,
-                                  spreadRadius: 2)
-                            ],
-                            borderRadius: BorderRadius.circular(
-                                SharedValues.borderRadius),
-                          ),
-                          child:  ClipRRect(
-                            borderRadius: BorderRadius.circular(SharedValues.borderRadius),
-                            child: Image.memory(
-                                base64Decode(value[index].images!.first),fit: BoxFit.cover),
-                          ),
-                        )
                     ],
                   ),
                 ),
@@ -197,10 +199,8 @@ class _ViewServicesState extends State<ViewServices> {
           ? null
           : FloatingActionButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddService()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddEvent()));
               },
               child: const Icon(Icons.add)),
     ));

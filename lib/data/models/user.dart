@@ -7,6 +7,8 @@ class User {
   String? phone;
   int? age;
   String password;
+  String? city;
+  UserRole? userRole;
 
   User(
       {this.id,
@@ -14,7 +16,9 @@ class User {
       required this.email,
        this.phone,
        this.age,
-      required this.password});
+         this.userRole,
+      required this.password,
+      this.city});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -23,7 +27,14 @@ class User {
       email: json["email"],
       phone: json["phone"],
       age: json["age"],
+      city: json["city"],
       password: json["password"],
+      userRole: () {
+      if (json["roles"] ==UserRole.admin.name) {
+        return UserRole.admin;
+      }
+      return UserRole.user;
+    }(),
     );
   }
 
@@ -35,6 +46,8 @@ class User {
       "phone": phone,
       "age": age,
       "password": password,
+      "city": city,
+      "roles": userRole?.name
     };
   }
 //

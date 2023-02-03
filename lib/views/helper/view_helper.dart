@@ -4,11 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/helper.dart';
 import 'package:tourist_app/data/models/service.dart';
 import 'package:tourist_app/data/network/data_response.dart';
+import 'package:tourist_app/data/providers/auth_provider.dart';
 import 'package:tourist_app/data/providers/service_provider.dart';
+import 'package:tourist_app/data/utils/enum.dart';
 import 'package:tourist_app/views/helper/add_helper.dart';
 import 'package:tourist_app/views/helper/helper_profile_screen.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
-import 'package:tourist_app/views/shared/image_network.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
@@ -35,6 +36,7 @@ class _ViewHelperState extends State<ViewHelper> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false).user;
     return SafeArea(
         child: Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -177,8 +179,13 @@ class _ViewHelperState extends State<ViewHelper> {
                             borderRadius: BorderRadius.circular(
                                 SharedValues.borderRadius),
                           ),
-                          child: Image.memory(
-                              base64Decode(value[index].images!.first)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                SharedValues.borderRadius),
+                            child: Image.memory(
+                                base64Decode(value[index].images.first),
+                                fit: BoxFit.cover),
+                          ),
                         )
                     ],
                   ),
@@ -188,15 +195,17 @@ class _ViewHelperState extends State<ViewHelper> {
           ))
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        AddHelper(serviceID: widget.service.id)));
-          },
-          child: const Icon(Icons.add)),
+      floatingActionButton: authProvider?.userRole != UserRole.admin
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AddHelper(serviceID: widget.service.id)));
+              },
+              child: const Icon(Icons.add)),
     ));
   }
 }

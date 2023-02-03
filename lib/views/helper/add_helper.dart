@@ -35,6 +35,7 @@ class _AddHelperState extends State<AddHelper> {
     DropdownMenuItemModel(id: 1, text: "Male"),
     DropdownMenuItemModel(id: 2, text: "Female"),
   ];
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     name = TextEditingController(text: widget.helper?.name);
@@ -66,142 +67,153 @@ class _AddHelperState extends State<AddHelper> {
         children: [
           SharedComponents.appBar(title: "Add Service"),
           Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical:SharedValues.padding),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical:SharedValues.padding),
             children: [
-              const SizedBox(height: SharedValues.padding),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: TextFieldWidget(
-                    controller: name,
-                    hintText: "Name",
-                    validator: (value) {
-                      if (value != null && value.isNotEmpty) {
-                        return null;
-                      }
-                      return "This field is required";
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: TextFieldWidget(
-                    controller: email,
-                    hintText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null) {
+                const SizedBox(height: SharedValues.padding),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: TextFieldWidget(
+                      controller: name,
+                      hintText: "Name",
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          return null;
+                        }
                         return "This field is required";
-                      } else if (!Utils.validateEmail(value)) {
-                        return "Invalid email";
-                      }
-                      return null;
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: TextFieldWidget(
-                  controller: phone,
-                  hintText: "Phone",
-                    validator: (value) {
-                      if (value != null && value.isNotEmpty) {
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: TextFieldWidget(
+                      controller: email,
+                      hintText: "Email",
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null) {
+                          return "This field is required";
+                        } else if (!Utils.validateEmail(value)) {
+                          return "Invalid email";
+                        }
                         return null;
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: TextFieldWidget(
+                    controller: phone,
+                    hintText: "Phone",
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          return null;
+                        }
+                        return "This field is required";
                       }
-                      return "This field is required";
-                    }
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: TextFieldWidget(
-                  controller: age,
-                  hintText: "Age",
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: DropdownFieldWidget(
-                  items: genders,
-                  hintText: "Gender",
-                  value: gender,
-                  keyDropDown: GlobalKey(),
-                  onChanged: (value) {
-                    gender=value!;
-                  },
-                    validator: (value) {
-                      if (value != null && value.isNotEmpty) {
-                        return null;
-                      }
-                      return "This field is required";
-                    },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: TextFieldWidget(
-                  controller: nationality,
-                  hintText: "Nationality",validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    return null;
-                  }
-                  return "This field is required";
-                }
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: ImageFieldWidget(hintText: "Images", values: images, max: 1),
-              ),
-              const SizedBox(height: SharedValues.padding*2),
-              Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
-                child: ButtonWidget(
-                  onPressed: () async {
-                    final helper=Helper(
-                        id: DateTime.now().millisecondsSinceEpoch,
-                        name: name.text,
-                        email: email.text,
-                        phone: phone.text,
-                        serviceID: widget.serviceID,
-                        age: int.parse(age.text),
-                        gender: gender!.text,
-                        nationality: nationality.text,
-                        userID: Provider.of<AuthProvider>(context, listen: false)
-                            .user!
-                            .id!,
-                        images: images);
-                    Result result;
-                   if(widget.helper==null){
-                     result = await provider.addHelper(helper);
-                   }else{
-                     helper.id=widget.helper!.id;
-                     result = await provider.updateHelper(helper);
-                   }
-                    if (result is Success) {
-                      // ignore: use_build_context_synchronously
-                      SharedComponents.showSnackBar(
-                          context,
-                          widget.helper == null
-                              ? "Helper added success"
-                              : "Helper edit success");
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      SharedComponents.showSnackBar(
-                          context,
-                          "Error occurred !!",
-                          backgroundColor:
-                              // ignore: use_build_context_synchronously
-                              Theme.of(context).colorScheme.error);
-                    }
-                  },
-                  withBorder: false,
-                  child: Text(
-                    "Save",
-                    style: Theme.of(context).textTheme.button,
                   ),
                 ),
-              )
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: TextFieldWidget(
+                    controller: age,
+                    hintText: "Age",
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: DropdownFieldWidget(
+                    items: genders,
+                    hintText: "Gender",
+                    value: gender,
+                    keyDropDown: GlobalKey(),
+                    onChanged: (value) {
+                      gender=value!;
+                    },
+                      validator: (value) {
+                        if (value != null ) {
+                          return null;
+                        }
+                        return "This field is required";
+                      },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: TextFieldWidget(
+                    controller: nationality,
+                    hintText: "Nationality",validator: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      return null;
+                    }
+                    return "This field is required";
+                  }
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: ImageFieldWidget(hintText: "Images", values: images, max: 1,
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          return null;
+                        }
+                        return "This field is required";
+                      }),
+                ),
+                const SizedBox(height: SharedValues.padding*2),
+                Padding(
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  child: ButtonWidget(
+                    onPressed: () async {
+                      if(_formKey.currentState!.validate()){
+                        final helper=Helper(
+                            id: DateTime.now().millisecondsSinceEpoch,
+                            name: name.text,
+                            email: email.text,
+                            phone: phone.text,
+                            serviceID: widget.serviceID,
+                            age: int.parse(age.text),
+                            gender: gender!.text,
+                            nationality: nationality.text,
+                            userID: Provider.of<AuthProvider>(context, listen: false)
+                                .user!
+                                .id!,
+                            images: images);
+                        Result result;
+                        if(widget.helper==null){
+                          result = await provider.addHelper(helper);
+                        }else{
+                          helper.id=widget.helper!.id;
+                          result = await provider.updateHelper(helper);
+                        }
+                        if (result is Success) {
+                          // ignore: use_build_context_synchronously
+                          SharedComponents.showSnackBar(
+                              context,
+                              widget.helper == null
+                                  ? "Helper added success"
+                                  : "Helper edit success");
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          SharedComponents.showSnackBar(
+                              context,
+                              "Error occurred !!",
+                              backgroundColor:
+                              // ignore: use_build_context_synchronously
+                              Theme.of(context).colorScheme.error);
+                        }
+                      }
+                    },
+                    withBorder: false,
+                    child: Text(
+                      "Save",
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
+                )
             ],
-          ))
+          ),
+              ))
         ],
       ),
     ));

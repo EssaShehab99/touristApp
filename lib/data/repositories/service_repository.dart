@@ -53,9 +53,9 @@ class ServiceRepository {
       return Error(e);
     }
   }
-  Future<Result> getServices() async {
+  Future<Result> getServices({String? city}) async {
     try {
-      final response = await _serviceApi.getServices();
+      final response = await _serviceApi.getServices(city: city);
       List<Service> services=[];
       for(final item in response){
         Map<String, dynamic> data= item.data();

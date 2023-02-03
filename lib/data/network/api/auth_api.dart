@@ -26,7 +26,7 @@ class AuthApi {
       debugPrint("=============AuthApi->sendCode =============");
       myauth.setConfig(
           appEmail: "app.program99@gmail.com",
-          appName: "TU Smart Services",
+          appName: "Tourist App",
           userEmail: email,
           otpLength: 6,
           otpType: OTPType.digitsOnly);
@@ -52,6 +52,8 @@ class AuthApi {
     try {
       final response = await _fireStore
           .collection(Endpoints.users)
+          .where("email", isEqualTo: email)
+          .where("password", isEqualTo: password)
           .get();
       return response.docs.first;
     } catch (e) {

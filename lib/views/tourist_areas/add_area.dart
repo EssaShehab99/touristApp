@@ -1,48 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/event.dart';
+import 'package:tourist_app/data/models/area.dart';
 import 'package:tourist_app/data/network/data_response.dart';
+import 'package:tourist_app/data/providers/area_provider.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/providers/event_provider.dart';
 import 'package:tourist_app/data/utils/extension.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
 import 'package:tourist_app/views/shared/constants.dart';
-import 'package:tourist_app/views/shared/date_field_widget.dart';
 import 'package:tourist_app/views/shared/dropdown_field_widget.dart';
 import 'package:tourist_app/views/shared/image_field_widget.dart';
 import 'package:tourist_app/views/shared/shared_components.dart';
 import 'package:tourist_app/views/shared/shared_values.dart';
 import 'package:tourist_app/views/shared/text_field_widget.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({Key? key, this.event}) : super(key: key);
-  final Event? event;
+class AddArea extends StatefulWidget {
+  const AddArea({Key? key, this.area}) : super(key: key);
+  final Area? area;
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<AddArea> createState() => _AddAreaState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _AddAreaState extends State<AddArea> {
   late TextEditingController name;
   late TextEditingController details;
-  late TextEditingController from;
-  late TextEditingController to;
   DropdownMenuItemModel? city;
-  final _formKey = GlobalKey<FormState>();
   List<DropdownMenuItemModel> cities = Constants.cities
       .map((e) =>
           DropdownMenuItemModel(id: Constants.cities.indexOf(e), text: e))
       .toList();
   List<String> images = [];
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    name = TextEditingController(text: widget.event?.name);
-    details = TextEditingController(text: widget.event?.details);
-    from = TextEditingController(text: widget.event?.from.toIso8601String());
-    to = TextEditingController(text: widget.event?.to.toIso8601String());
+    name = TextEditingController(text: widget.area?.name);
+    details = TextEditingController(text: widget.area?.details);
     city =
-        cities.firstWhereOrNull((element) => element.text == widget.event?.city);
-    images = widget.event?.images ?? [];
+        cities.firstWhereOrNull((element) => element.text == widget.area?.city);
+    images = widget.area?.images ?? [];
     super.initState();
   }
 
@@ -52,14 +47,15 @@ class _AddEventState extends State<AddEvent> {
     details.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<EventProvider>(context, listen: false);
+    final provider = Provider.of<AreaProvider>(context, listen: false);
     return SafeArea(
         child: Scaffold(
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Add Event"),
+          SharedComponents.appBar(title: "Add Tourist Areas"),
           Expanded(
               child: Form(
             key: _formKey,
@@ -112,30 +108,6 @@ class _AddEventState extends State<AddEvent> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
-                  child: DateFieldWidget(
-                      hintText: "From",
-                      controller: from,
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          return null;
-                        }
-                        return "This field is required";
-                      }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(SharedValues.padding),
-                  child: DateFieldWidget(
-                      hintText: "To",
-                      controller: to,
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          return null;
-                        }
-                        return "This field is required";
-                      }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(SharedValues.padding),
                   child: ImageFieldWidget(
                       hintText: "Images",
                       max: 5,
@@ -154,32 +126,30 @@ class _AddEventState extends State<AddEvent> {
                     withBorder: false,
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        final event = Event(
+                        final area = Area(
                             id: DateTime.now().millisecondsSinceEpoch,
                             name: name.text,
                             details: details.text,
                             city: city!.text,
-                            from: DateTime.parse(from.text),
-                            to: DateTime.parse(to.text),
                             userID: Provider.of<AuthProvider>(context,
                                     listen: false)
                                 .user!
                                 .id!,
                             images: images);
                         Result result;
-                        if (widget.event == null) {
-                          result = await provider.addEvent(event);
+                        if (widget.area == null) {
+                          result = await provider.addArea(area);
                         } else {
-                          event.id = widget.event!.id;
-                          result = await provider.updateEvent(event);
+                          area.id = widget.area!.id;
+                          result = await provider.updateArea(area);
                         }
                         if (result is Success) {
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(
                               context,
-                              widget.event == null
-                                  ? "Event added success"
-                                  : "Event edit success");
+                              widget.area == null
+                                  ? "Area added success"
+                                  : "Area edit success");
                         } else {
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(

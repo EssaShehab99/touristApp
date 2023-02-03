@@ -35,10 +35,7 @@ class AuthRepository {
       debugPrint(
           "==========AuthRepository->signIn->email/password:$email / $password ==========");
       final response = await _authApi.getUser(email, password);
-      final data = {
-        ...response.data(),
-      };
-      final user = User.fromJson(data);
+      final user = User.fromJson(response.data());
       await _preferences.delete(PreferenceVariable.user);
       await _preferences.insert(
           PreferenceVariable.user, jsonEncode(user.toJson()));
@@ -57,13 +54,13 @@ class AuthRepository {
     }
   }
 
-  Future<Result> sendCode(String email,bool withoutCheckUser) async {
+  Future<Result> sendCode(String email, bool withoutCheckUser) async {
     try {
-
-      if(withoutCheckUser||(await _authApi.checkUser(email))?.data()==null) {
+      if (withoutCheckUser ||
+          (await _authApi.checkUser(email))?.data() == null) {
         bool status = await _authApi.sendCode(email);
         return Success(status);
-      }else{
+      } else {
         return Error(ExistUserException());
       }
     } catch (e) {
@@ -78,10 +75,10 @@ class AuthRepository {
       return false;
     }
   }
+
   Future<bool> changePassword(String email, String password) async {
     try {
-      return await _authApi
-          .changePassword(email, {"password": password});
+      return await _authApi.changePassword(email, {"password": password});
     } catch (_) {
       return false;
     }
