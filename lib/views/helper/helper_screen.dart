@@ -1,11 +1,18 @@
+import 'package:provider/provider.dart';
+import 'package:tourist_app/data/models/helper.dart';
+import 'package:tourist_app/data/models/service.dart';
+import 'package:tourist_app/data/providers/service_provider.dart';
+import 'package:tourist_app/views/helper/add_helper.dart';
 import 'package:tourist_app/views/helper/helper_profile_screen.dart';
+import 'package:tourist_app/views/shared/image_network.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
 import 'package:flutter/material.dart';
 
 class HelperScreen extends StatefulWidget {
-  const HelperScreen({Key? key}) : super(key: key);
+  const HelperScreen({Key? key, required this.service}) : super(key: key);
+  final Service service;
 
   @override
   State<HelperScreen> createState() => _HelperScreenState();
@@ -13,82 +20,104 @@ class HelperScreen extends StatefulWidget {
 
 class _HelperScreenState extends State<HelperScreen> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SharedComponents.showOverlayLoading(context, () async {
+        await Provider.of<ServiceProvider>(context, listen: false).getHelpers();
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          body: Column(
-            children: [
-              SharedComponents.appBar(title: "Helpers"),
-              Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(SharedValues.padding),
-                    itemCount: 10,
-                    itemBuilder: (context, index) => InkWell(
-                      borderRadius: BorderRadius.circular(SharedValues.borderRadius),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HelperProfileScreen()));
-                      },
-                      child: Container(
-                        height: 80,
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(SharedValues.padding),
-                        margin: const EdgeInsets.all(SharedValues.padding),
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      body: Column(
+        children: [
+          SharedComponents.appBar(title: "Helpers"),
+          Expanded(
+              child: Selector<ServiceProvider, List<Helper>>(
+            selector: (p0, p1) => p1.helpers(widget.service.id),
+            builder: (context, value, _) => ListView.builder(
+              padding: const EdgeInsets.all(SharedValues.padding),
+              itemCount: value.length,
+              itemBuilder: (context, index) => InkWell(
+                borderRadius: BorderRadius.circular(SharedValues.borderRadius),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HelperProfileScreen(helper: value[index],)));
+                },
+                child: Container(
+                  height: 120,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(SharedValues.padding),
+                  margin: const EdgeInsets.all(SharedValues.padding),
+                  decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(SharedValues.borderRadius),
+                      color: Theme.of(context).colorScheme.background,
+                      boxShadow: [
+                        BoxShadow(
+                            color:
+                                Theme.of(context).dividerColor.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5)
+                      ]),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: Align(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  child: Text(value[index].name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5?.copyWith(fontSize: 16)))),
+                          Expanded(
+                              child: Align(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  child: Text(value[index].email,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium))),
+                        ],
+                      )),
+                      if(value[index].images.isNotEmpty)
+                      Container(
+                        width: 100,
+                        height: double.infinity,
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.circular(SharedValues.borderRadius),
-                            color: Theme.of(context).colorScheme.background,
-                            boxShadow: [
-                              BoxShadow(color: Theme.of(context).dividerColor.withOpacity(0.5),spreadRadius: 1,blurRadius: 5)
-                            ]
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                        child: Align(
-                                            alignment: AlignmentDirectional.centerStart,
-                                            child: Text("Bara Ali Ahmed",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5))),
-                                    Expanded(
-                                        child: Align(
-                                            alignment: AlignmentDirectional.centerStart,
-                                            child: Text("There was nothing new about the",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelMedium))),
-                                  ],
-                                )),
-                            PopupMenuButton<String>(
-                                onSelected: (value) {},
-                                itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<String>>[
-                                  for (var item in ["Delete"])
-                                    PopupMenuItem(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style:
-                                        Theme.of(context).textTheme.subtitle2,
-                                      ),
-                                    )
-                                ],
-                                child: Icon(
-                                  Icons.more_vert,
-                                  color: Theme.of(context).colorScheme.onPrimary,
-                                )),
+                          color: Theme.of(context).colorScheme.secondary,
+                          boxShadow: [
+                            BoxShadow(color: Theme.of(context).shadowColor.withOpacity(0.1),blurRadius: 3,spreadRadius: 2)
                           ],
+                          borderRadius: BorderRadius.circular(SharedValues.borderRadius),
                         ),
-                      ),
-                    ),
-                  ))
-            ],
-          ),
-        ));
+                        child: ImageNetwork(url: value[index].images.first),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ))
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddHelper(service: widget.service)));
+          },
+          child: const Icon(Icons.add)),
+    ));
   }
 }

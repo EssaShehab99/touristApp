@@ -4,11 +4,11 @@ import '/views/shared/shared_values.dart';
 class ButtonWidget extends StatefulWidget {
   const ButtonWidget(
       {Key? key,
-        this.onPressed,
-        this.minWidth,
-        this.height,
-        this.child,
-        this.withBorder})
+      this.onPressed,
+      this.minWidth,
+      this.height,
+      this.child,
+      this.withBorder})
       : super(key: key);
   final Function()? onPressed;
   final double? minWidth;
@@ -37,7 +37,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       height: widget.height ?? 55,
       padding: EdgeInsets.zero,
       minWidth: widget.minWidth,
-      color: widget.withBorder==false?Theme.of(context).primaryColor:null,
+      color: widget.withBorder == false ? Theme.of(context).primaryColor : null,
       shape: OutlineInputBorder(
           borderRadius: BorderRadius.circular(SharedValues.borderRadius),
           borderSide: widget.withBorder == false
@@ -46,8 +46,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       child: Builder(builder: (context) {
         if (isLoading) {
           return CircularProgressIndicator(
-            color: Theme.of(context).primaryColor,
-          );
+              color: Theme.of(context).colorScheme.background);
         }
         return widget.child ?? const SizedBox.shrink();
       }),

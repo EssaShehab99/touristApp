@@ -4,20 +4,18 @@ import '/views/shared/shared_values.dart';
 class DropdownFieldWidget extends StatelessWidget {
   const DropdownFieldWidget(
       {Key? key,
-        required this.hintText,
-        this.prefixIcon,
-        this.suffixIcon,
-        this.value,
-        required this.items,
-        this.onChanged,
-        required this.keyDropDown,
-        this.validator,
-        this.focusNode})
+      required this.hintText,
+      this.prefixIcon,
+      this.value,
+      required this.items,
+      this.onChanged,
+      required this.keyDropDown,
+      this.validator,
+      this.focusNode})
       : super(key: key);
   final String hintText;
   final DropdownMenuItemModel? value;
   final Widget? prefixIcon;
-  final Widget? suffixIcon;
   final List<DropdownMenuItemModel> items;
   final ValueChanged<DropdownMenuItemModel?>? onChanged;
   final Key? keyDropDown;
@@ -30,7 +28,7 @@ class DropdownFieldWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(hintText,style: Theme.of(context).textTheme.labelMedium),
+        Text(hintText, style: Theme.of(context).textTheme.labelMedium),
         const SizedBox(height: SharedValues.padding),
         ButtonTheme(
           alignedDropdown: true,
@@ -53,11 +51,15 @@ class DropdownFieldWidget extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle1,
                       ))
               ],
-              icon:  const SizedBox.shrink(),
+              icon: const SizedBox.shrink(),
               decoration: InputDecoration(
                   prefixIcon: prefixIcon,
-                  suffixIcon: suffixIcon,
-                  contentPadding: const EdgeInsets.all(SharedValues.padding * 1.6)),
+                  suffixIcon: Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.all(SharedValues.padding * 1.6)),
             ),
           ),
         ),

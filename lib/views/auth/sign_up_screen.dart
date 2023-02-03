@@ -1,3 +1,10 @@
+import 'package:provider/provider.dart';
+import 'package:tourist_app/data/models/user.dart';
+import 'package:tourist_app/data/network/data_response.dart';
+import 'package:tourist_app/data/network/http_exception.dart';
+import 'package:tourist_app/data/providers/auth_provider.dart';
+import 'package:tourist_app/data/utils/utils.dart';
+
 import '/views/auth/verify_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -83,11 +90,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: TextFieldWidget(
                       controller: email,
                       hintText: "Email",
+                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          return null;
+                        if (value == null) {
+                          return "This field is required";
+                        } else if (!Utils.validateEmail(value)) {
+                          return "Invalid email";
                         }
-                        return "This field is required";
+                        return null;
                       }),
                 ),
                 Padding(
@@ -150,40 +160,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     minWidth: double.infinity,
                     withBorder: false,
                     onPressed: () async {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VerifyOTP(),
-                          ),
+                      if (_formKey.currentState!.validate()) {
+                        final user = User(
+                            id: DateTime.now().millisecondsSinceEpoch,
+                            name: name.text,
+                            email: email.text,
+                            phone: phone.text,
+                            age: int.parse(age.text),
+                            password: password.text);
+                        Result result = await Provider.of<AuthProvider>(context,
+                                listen: false)
+                            .sendCode(user,false);
+                        if (result is Success) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const VerifyOTP(isSignUp: true),
+                              ),
                               (_) => false);
-                      //
-                      // final user = User(
-                      //     id: DateTime.now().millisecondsSinceEpoch,
-                      //     name: name.text,
-                      //     email: email.text,
-                      //     phone: phone.text,
-                      //     age: int.tryParse(age.text),
-                      //     password: password.text);
-                      // Result result = await Provider.of<AuthProvider>(context,
-                      //         listen: false)
-                      //     .sendCode(user);
-                      // if (result is Success) {
-                      //   // ignore: use_build_context_synchronously
-                      //   Navigator.pushAndRemoveUntil(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => const VerifyOTP(),
-                      //       ),
-                      //       (_) => false);
-                      // }
-                      // else if(result is Error){
-                      //   // ignore: use_build_context_synchronously
-                      //   SharedComponents.showSnackBar(
-                      //       context, "Error occurred !!",
-                      //       backgroundColor:
-                      //       // ignore: use_build_context_synchronously
-                      //       Theme.of(context).colorScheme.error);
-                      // }
+                        } else if (result is Error &&
+                            result.exception is ExistUserException) {
+                          String message = "User exist please sign in.";
+                          // ignore: use_build_context_synchronously
+                          SharedComponents.showSnackBar(context, message,
+                              backgroundColor:
+                                  // ignore: use_build_context_synchronously
+                                  Theme.of(context).colorScheme.error);
+                        } else if (result is Error) {
+                          String message = "Error occurred !!";
+                          // ignore: use_build_context_synchronously
+                          SharedComponents.showSnackBar(context, message,
+                              backgroundColor:
+                                  // ignore: use_build_context_synchronously
+                                  Theme.of(context).colorScheme.error);
+                        }
+                      }
                     },
                     child: Text(
                       "Sign up",
@@ -198,11 +211,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Text("I already have an account",
                           style: Theme.of(context).textTheme.bodyText2),
                       TextButton(
-                        onPressed: () async {
-                          Navigator.of(context).pushAndRemoveUntil(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInScreen()),
-                              (Route<dynamic> route) => false);
+                                  builder: (context) => const SignInScreen()));
                         },
                         child: Text("Sign in?",
                             style: Theme.of(context).textTheme.headline5),

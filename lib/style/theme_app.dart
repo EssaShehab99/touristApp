@@ -26,6 +26,10 @@ class ThemeApp {
             borderRadius: BorderRadius.circular(SharedValues.borderRadius),
             borderSide: const BorderSide(color: Color(0xFF2E9498), width: 1.5)
         ),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(SharedValues.borderRadius),
+            borderSide: const BorderSide(color: Color(0xFF2E9498), width: 1.5)
+        ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(SharedValues.borderRadius),
             borderSide: const BorderSide(color: Color(0xFF2E9498),width: 1.5)),
@@ -45,7 +49,7 @@ class ThemeApp {
           brightness: Brightness.light,
           primary: Color(0xFFFABC80),
           onPrimary: Color(0xFFFDFAED),
-          secondary: Color(0x4B53A57C),
+          secondary: Color(0xFFFDFAED),
           onSecondary: Color(0xFFFDFAED),
           error: Color(0xFFE86173),
           onError: Color(0xFFFDFAED),

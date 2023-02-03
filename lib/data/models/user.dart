@@ -1,19 +1,19 @@
 import '/data/utils/enum.dart';
 
 class User {
-  int id;
-  String name;
+  int? id;
+  String? name;
   String email;
-  String phone;
+  String? phone;
   int? age;
   String password;
 
   User(
-      {required this.id,
-      required this.name,
+      {this.id,
+      this.name,
       required this.email,
-      required this.phone,
-      required this.age,
+       this.phone,
+       this.age,
       required this.password});
 
   factory User.fromJson(Map<String, dynamic> json) {

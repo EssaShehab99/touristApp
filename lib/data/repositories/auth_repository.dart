@@ -30,11 +30,11 @@ class AuthRepository {
     }
   }
 
-  Future<Result> signIn(int studentNumber, String password) async {
+  Future<Result> signIn(String email, String password) async {
     try {
       debugPrint(
-          "==========AuthRepository->signIn->studentNumber/password:$studentNumber / $password ==========");
-      final response = await _authApi.getUser(studentNumber, password);
+          "==========AuthRepository->signIn->email/password:$email / $password ==========");
+      final response = await _authApi.getUser(email, password);
       final data = {
         ...response.data(),
       };
@@ -57,22 +57,33 @@ class AuthRepository {
     }
   }
 
-  Future<Result> sendCode(String phone) async {
+  Future<Result> sendCode(String email,bool withoutCheckUser) async {
     try {
-      bool status=await _authApi.sendCode(phone);
-      return Success(status);
+
+      if(withoutCheckUser||(await _authApi.checkUser(email))?.data()==null) {
+        bool status = await _authApi.sendCode(email);
+        return Success(status);
+      }else{
+        return Error(ExistUserException());
+      }
     } catch (e) {
       return Error(e);
     }
   }
 
-  Future<Result> verifyCode(String phone, String smsCode) async {
+  bool verifyCode(String code) {
     try {
-      bool status = await _authApi.verifyCode(phone, smsCode);
-      debugPrint("============ $status ============");
-      return Success(status);
-    } catch (e) {
-      return Error(e);
+      return _authApi.verifyCode(code);
+    } catch (_) {
+      return false;
+    }
+  }
+  Future<bool> changePassword(String email, String password) async {
+    try {
+      return await _authApi
+          .changePassword(email, {"password": password});
+    } catch (_) {
+      return false;
     }
   }
 }

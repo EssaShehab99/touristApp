@@ -9,16 +9,17 @@ class AuthProvider extends ChangeNotifier {
   User? _user;
   User? get user => _user;
   String? verificationId;
-  Future<Result> signUp(User user) async {
-    Result result = await _authRepository.signUp(user);
+  Future<Result> signUp() async {
+    if(_user==null)return Error();
+    Result result = await _authRepository.signUp(_user!);
     if (result is Success) {
       _user = result.value;
     }
     return result;
   }
 
-  Future<Result> signIn(int studentNumber, String password) async {
-    Result result = await _authRepository.signIn(studentNumber, password);
+  Future<Result> signIn(String email, String password) async {
+    Result result = await _authRepository.signIn(email, password);
     if (result is Success) {
       _user = result.value;
     }
@@ -36,29 +37,15 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<Result> sendCode(User? user) async {
-    try {
-      setUser(user);
-      if(_user?.phone!=null) {
-        Result result=await _authRepository.sendCode(_user!.phone);
-        return result;
-      }
-      return Error();
-    } catch (e) {
-      return Error(e);
-    }
+
+  Future<Result> sendCode(User user,bool withoutCheckUser) async {
+    _user=user;
+    return await _authRepository.sendCode(_user!.email,withoutCheckUser);
   }
-  Future<Result> verifyCode(String smsCode) async {
-    try {
-      debugPrint("===============AuthProvider->verifyCode->smsCode: ${smsCode} ==============");
-      setUser(user);
-      if(_user?.phone!=null) {
-        Result result=await _authRepository.verifyCode(_user!.phone,smsCode);
-        return result;
-      }
-      return Error();
-    } catch (e) {
-      return Error(e);
-    }
+  bool verifyCode(String code) {
+    return _authRepository.verifyCode(code);
+  }
+  Future<bool> changePassword() async {
+    return await _authRepository.changePassword(_user!.email, _user!.password!);
   }
 }

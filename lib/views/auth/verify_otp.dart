@@ -1,3 +1,4 @@
+import 'package:tourist_app/views/auth/sign_in_screen.dart';
 import 'package:tourist_app/views/home/home_page.dart';
 
 import '/data/network/data_response.dart';
@@ -11,7 +12,8 @@ import '/views/shared/shared_values.dart';
 import '/views/shared/text_field_widget.dart';
 
 class VerifyOTP extends StatefulWidget {
-  const VerifyOTP({Key? key}) : super(key: key);
+  const VerifyOTP({Key? key, required this.isSignUp}) : super(key: key);
+  final bool isSignUp;
   @override
   State<VerifyOTP> createState() => _VerifyOTPState();
 }
@@ -56,15 +58,14 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Please enter the verification code sent for the number:\n\n phone"
+                        "Please enter the verification code sent for the email:\n\n user-email"
                             .replaceAll(
-                                RegExp(r'phone'),
+                                RegExp(r'user-email'),
                                 Provider.of<AuthProvider>(context,
                                             listen: false)
                                         .user
-                                        ?.phone
-                                        .toString() ??
-                                    "5555"),
+                                        ?.email ??
+                                    ""),
                         style: Theme.of(context).textTheme.subtitle1?.copyWith(
                             fontWeight: FontWeight.bold, fontSize: 17),
                         textAlign: TextAlign.center,
@@ -104,12 +105,29 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   minWidth: double.infinity,
                   withBorder: false,
                   onPressed: () async {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
-                        ),
-                            (_) => false);
+                    final provider =
+                        Provider.of<AuthProvider>(context, listen: false);
+                    bool status = provider.verifyCode(
+                      controllers.map((e) => e.text).join(),
+                    );
+                    if (status) {
+                      if (!widget.isSignUp) {
+                        await provider.changePassword();
+                      }
+                      else {
+                        await provider.signUp();
+                      }
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                          (_) => false);
+                    } else {
+                      // ignore: use_build_context_synchronously
+                      SharedComponents.showSnackBar(context, "OTP not Correct");
+                    }
                   },
                   child: Text(
                     "Verify",
@@ -124,11 +142,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     Text("The code has not arrived",
                         style: Theme.of(context).textTheme.bodyText2),
                     TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const SignUpScreen()),
-                            (Route<dynamic> route) => false);
+                      onPressed: () async {
+                        Navigator.pop(context);
                       },
                       child: Text("Resend the code?",
                           style: Theme.of(context).textTheme.headline5),
