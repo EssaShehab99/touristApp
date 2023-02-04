@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/network/data_response.dart';
-import 'package:tourist_app/data/network/http_exception.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
 import 'package:tourist_app/data/utils/utils.dart';
 
@@ -48,7 +48,8 @@ class _SignInScreenState extends State<SignInScreen> {
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Sign in",withBackBtn: false),
+          SharedComponents.appBar(title: "sign-in".tr(),withBackBtn: false,
+              changeLanguage: ()=> setState(() { })),
           Expanded(
               child: Form(
             key: _formKey,
@@ -67,23 +68,23 @@ class _SignInScreenState extends State<SignInScreen> {
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null) {
-                          return "This field is required";
+                          return "field-required".tr();
                         } else if (!Utils.validateEmail(value)) {
-                          return "Invalid email";
+                          return "invalid-email".tr();
                         }
                         return null;
                       },
-                      hintText: "Email"),
+                      hintText: "email".tr()),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal:SharedValues.padding),
                   child: TextFieldWidget(
-                      controller: password, hintText: "Password",
+                      controller: password, hintText: "password".tr(),
                       validator: (value) {
                 if (value != null && value.isNotEmpty) {
                 return null;
                 }
-                return "This field is required";
+                return "field-required".tr();
                 }),
                 ),
                 Align(
@@ -95,7 +96,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           MaterialPageRoute(
                               builder: (context) => const ForgetPassword()));
                     },
-                    child: Text("Forget password?",
+                    child: Text("${"forget-password".tr()}?",
                         style: Theme.of(context).textTheme.headline5),
                   ),
                 ),
@@ -121,7 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         } else if (result is Error) {
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(
-                              context, "User or password incorrect !!",
+                              context, "user-password-incorrect".tr(),
                               backgroundColor:
                               // ignore: use_build_context_synchronously
                               Theme.of(context).colorScheme.error);
@@ -129,7 +130,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       }
                     },
                     child: Text(
-                      "Sign in",
+                      "sign-in".tr(),
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),
@@ -138,16 +139,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: Row(
                     children: [
-                      Text("I don't have an account",
+                      Text("have-not-account".tr(),
                           style: Theme.of(context).textTheme.bodyText2),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
+                          Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()),
-                              (Route<dynamic> route) => false);
+                                  builder: (context) => const SignUpScreen()));
                         },
-                        child: Text("Sign up?",
+                        child: Text("${"sign-in".tr()}?",
                             style: Theme.of(context).textTheme.headline5),
                       )
                     ],

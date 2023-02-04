@@ -1,8 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/views/auth/sign_in_screen.dart';
 import 'package:tourist_app/views/events/view_events.dart';
 import 'package:tourist_app/views/services/view_services.dart';
 import 'package:tourist_app/views/tourist_areas/view_areas.dart';
@@ -26,9 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           SharedComponents.appBar(
-            title: "VoyageMate",
+            title: "app-name".tr(),
             withBackBtn: false,
             withSignOut: true,
+            changeLanguage: ()=> setState(() { })
           ),
           const SizedBox(height: SharedValues.padding * 3),
           Expanded(
@@ -43,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(
                                 builder: (context) => ViewServices()));
                       },
-                      text: "Services",
+                      text: "services".tr(),
                       image: AssetsVariable.services),
                 ),
                 Expanded(
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(
                                 builder: (context) => ViewAreas()));
                       },
-                      text: "Tourist Areas",
+                      text: "tourist-areas".tr(),
                       image: AssetsVariable.areas),
                 ),
               ],
@@ -72,13 +71,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(
                                 builder: (context) => ViewEvents()));
                       },
-                      text: "Events",
+                      text: "events".tr(),
                       image: AssetsVariable.events),
                 ),
                 Expanded(
                   child: _buildButtonWidget(
                       onPressed: () {},
-                      text: "About us",
+                      text: "about-us".tr(),
                       image: AssetsVariable.info),
                 ),
               ],

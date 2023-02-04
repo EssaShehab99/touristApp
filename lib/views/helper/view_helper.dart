@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/helper.dart';
 import 'package:tourist_app/data/models/service.dart';
@@ -42,7 +43,7 @@ class _ViewHelperState extends State<ViewHelper> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Helpers"),
+          SharedComponents.appBar(title: "helpers".tr()),
           Expanded(
               child: Selector<ServiceProvider, List<Helper>>(
             selector: (p0, p1) => p1.helpers(widget.service.id),
@@ -77,7 +78,7 @@ class _ViewHelperState extends State<ViewHelper> {
                                             helper: value[index])));
                               },
                               child: Text(
-                                "Edit",
+                                "edit".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
@@ -98,20 +99,20 @@ class _ViewHelperState extends State<ViewHelper> {
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
-                                      context, "Service deleted");
+                                      context, "service-deleted".tr());
                                 } else {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
                                       // ignore: use_build_context_synchronously
                                       context,
-                                      "Error occurred !!",
+                                      "error-occurred".tr(),
                                       backgroundColor:
                                           // ignore: use_build_context_synchronously
                                           Theme.of(context).colorScheme.error);
                                 }
                               },
                               child: Text(
-                                "Delete",
+                                "delete".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),

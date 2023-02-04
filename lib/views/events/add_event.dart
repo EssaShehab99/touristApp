@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/event.dart';
@@ -59,7 +60,7 @@ class _AddEventState extends State<AddEvent> {
         child: Scaffold(
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Add Event"),
+          SharedComponents.appBar(title: "add-event".tr()),
           Expanded(
               child: Form(
             key: _formKey,
@@ -71,31 +72,31 @@ class _AddEventState extends State<AddEvent> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: name,
-                      hintText: "Name",
+                      hintText: "name".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: details,
-                      hintText: "Details",
+                      hintText: "details".tr(),
                       maxLines: 10,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: DropdownFieldWidget(
-                    hintText: "City",
+                    hintText: "city".tr(),
                     items: cities,
                     value: city,
                     onChanged: (value) {
@@ -105,7 +106,7 @@ class _AddEventState extends State<AddEvent> {
                       if (value != null) {
                         return null;
                       }
-                      return "This field is required";
+                      return "field-required".tr();
                     },
                     keyDropDown: GlobalKey(),
                   ),
@@ -113,38 +114,38 @@ class _AddEventState extends State<AddEvent> {
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: DateFieldWidget(
-                      hintText: "From",
+                      hintText: "from".tr(),
                       controller: from,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: DateFieldWidget(
-                      hintText: "To",
+                      hintText: "to".tr(),
                       controller: to,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: ImageFieldWidget(
-                      hintText: "Images",
+                      hintText: "images".tr(),
                       max: 5,
                       values: images,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 const SizedBox(height: SharedValues.padding * 2),
@@ -178,12 +179,12 @@ class _AddEventState extends State<AddEvent> {
                           SharedComponents.showSnackBar(
                               context,
                               widget.event == null
-                                  ? "Event added success"
-                                  : "Event edit success");
+                                  ? "event-added-success".tr()
+                                  : "event-edit-success".tr());
                         } else {
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(
-                              context, "Error occurred !!",
+                              context, "error-occurred".tr(),
                               backgroundColor:
                                   // ignore: use_build_context_synchronously
                                   Theme.of(context).colorScheme.error);
@@ -191,7 +192,7 @@ class _AddEventState extends State<AddEvent> {
                       }
                     },
                     child: Text(
-                      "Save",
+                      "save".tr(),
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),

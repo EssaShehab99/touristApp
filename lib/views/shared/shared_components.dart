@@ -1,12 +1,12 @@
 import 'dart:ui';
-
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/views/auth/sign_in_screen.dart';
-import '/views/shared/assets_variables.dart';
+import 'package:tourist_app/views/shared/assets_variables.dart';
+import '/data/providers/auth_provider.dart';
+import '/views/auth/sign_in_screen.dart';
 import '/views/shared/shared_values.dart';
 
 class SharedComponents {
@@ -15,8 +15,12 @@ class SharedComponents {
       SharedComponents._privateConstructor();
   static SharedComponents get instance => _instance;
 
-  static Widget appBar(
-          {required String title, bool? withBackBtn,bool? withSignOut, Widget? leading}) =>
+  static Widget appBar({
+    required String title,
+    bool? withBackBtn,
+    bool? withSignOut,
+    Function? changeLanguage,
+  }) =>
       Builder(
           builder: (context) => Container(
                 width: double.infinity,
@@ -32,36 +36,67 @@ class SharedComponents {
                     SizedBox(
                       height: 50,
                       child: withBackBtn == false
-                          ?  withSignOut==true?PopupMenuButton<int>(
-                          onSelected: (value) async {
-                            await Provider.of<AuthProvider>(context,
-                                listen: false)
-                                .signOut();
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignInScreen()),
-                                    (route) => false);
-                          },
-                          itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<int>>[
-                            PopupMenuItem(
-                              value: 1,
-                              child: Text(
-                                "Sign Out",
-                                style: Theme.of(context).textTheme.headline5,
-                              ),
-                            )
-                          ],
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: SharedValues.padding),
-                            child: Icon(
-                              Icons.more_vert,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                          )):null
+                          ? withSignOut == true || changeLanguage != null
+                              ? PopupMenuButton<int>(
+                                  onSelected: (value) async {
+                                    if (value == 1) {
+                                      await Provider.of<AuthProvider>(context,
+                                              listen: false)
+                                          .signOut();
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignInScreen()),
+                                          (route) => false);
+                                    } else if (value == 2) {
+                                      if (context.locale.toString() ==
+                                          "ar_SA") {
+                                        context.setLocale(
+                                            const Locale('en', 'US'));
+                                      } else {
+                                        context.setLocale(
+                                            const Locale('ar', 'SA'));
+                                      }
+                                      if (changeLanguage != null)
+                                        changeLanguage();
+                                    }
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<int>>[
+                                        if (withSignOut == true)
+                                          PopupMenuItem(
+                                            value: 1,
+                                            child: Text(
+                                              "sign-out".tr(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline5,
+                                            ),
+                                          ),
+                                        if (changeLanguage != null)
+                                          PopupMenuItem(
+                                            value: 2,
+                                            child: Text(
+                                              "lan".tr(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline5,
+                                            ),
+                                          ),
+                                      ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: SharedValues.padding),
+                                    child: Icon(
+                                      Icons.more_vert,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                                  ))
+                              : null
                           : IconButton(
                               onPressed: () => Navigator.pop(context),
                               icon: const Icon(Icons.arrow_back)),
@@ -85,7 +120,18 @@ class SharedComponents {
                             ),
                           ),
                         ),
-                        leading ?? const SizedBox.shrink()
+                        Expanded(
+                            child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                      end: SharedValues.padding,
+                                      bottom: SharedValues.padding),
+                                  child: SvgPicture.asset(
+                                      AssetsVariable.circleLogo,
+                                      height: 90,
+                                      width: 90),
+                                )))
                       ],
                     )),
                   ],

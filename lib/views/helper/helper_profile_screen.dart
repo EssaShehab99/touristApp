@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tourist_app/data/models/helper.dart';
@@ -56,11 +57,11 @@ class _HelperProfileScreenState extends State<HelperProfileScreen> {
                 padding: const EdgeInsets.all(SharedValues.padding),
                 children: [
                   const SizedBox(height: SharedValues.padding),
-                  _buildInfo("Email", widget.helper.email),
-                  _buildInfo("Phone", widget.helper.phone),
-                  _buildInfo("Age", widget.helper.age.toString()),
-                  _buildInfo("Gender", widget.helper.gender),
-                  _buildInfo("Nationality", widget.helper.nationality),
+                  _buildInfo("email".tr(), widget.helper.email),
+                  _buildInfo("phone".tr(), widget.helper.phone),
+                  _buildInfo("age".tr(), widget.helper.age.toString()),
+                  _buildInfo("gender".tr(), widget.helper.gender),
+                  _buildInfo("nationality".tr(), widget.helper.nationality),
                 ],
               ),
             )

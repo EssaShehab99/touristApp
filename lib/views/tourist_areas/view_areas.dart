@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/area.dart';
-import 'package:tourist_app/data/network/data_response.dart';
-import 'package:tourist_app/data/providers/area_provider.dart';
-import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/utils/enum.dart';
-import 'package:tourist_app/views/shared/button_widget.dart';
-import 'package:tourist_app/views/tourist_areas/add_area.dart';
-import 'package:tourist_app/views/tourist_areas/area_details.dart';
+import '/data/models/area.dart';
+import '/data/network/data_response.dart';
+import '/data/providers/area_provider.dart';
+import '/data/providers/auth_provider.dart';
+import '/data/utils/enum.dart';
+import '/views/shared/button_widget.dart';
+import '/views/tourist_areas/add_area.dart';
+import '/views/tourist_areas/area_details.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
@@ -40,7 +41,7 @@ class _ViewAreasState extends State<ViewAreas> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Tourist Areas"),
+          SharedComponents.appBar(title: "tourist-areas".tr()),
           Expanded(
               child: Selector<AreaProvider, List<Area>>(
             selector: (p0, p1) => p1.areas,
@@ -73,7 +74,7 @@ class _ViewAreasState extends State<ViewAreas> {
                                             AddArea(area: value[index])));
                               },
                               child: Text(
-                                "Edit",
+                                "edit".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
@@ -94,20 +95,20 @@ class _ViewAreasState extends State<ViewAreas> {
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
-                                      context, "Service deleted");
+                                      context, "service-deleted".tr());
                                 } else {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
                                       // ignore: use_build_context_synchronously
                                       context,
-                                      "Error occurred !!",
+                                      "error-occurred".tr(),
                                       backgroundColor:
                                           // ignore: use_build_context_synchronously
                                           Theme.of(context).colorScheme.error);
                                 }
                               },
                               child: Text(
-                                "Delete",
+                                "delete".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
@@ -229,3 +230,97 @@ class _ViewAreasState extends State<ViewAreas> {
     ));
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

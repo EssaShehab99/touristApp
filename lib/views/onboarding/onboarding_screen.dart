@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tourist_app/views/auth/sign_in_screen.dart';
 import 'package:tourist_app/views/shared/assets_variables.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
@@ -29,24 +28,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       _page(
           AssetsVariable.onboarding_1,
           0,
-          "Welcome to our tourism app! We hope that this application will help you to learn about the many and interesting tourist destinations.",
-          "Next",
+          "welcome".tr(),
+          "next".tr(),
           () => _pageController.nextPage(
               duration: const Duration(microseconds: 250),
               curve: Curves.easeIn)),
       _page(
           AssetsVariable.onboarding_2,
           1,
-          "We care about making your experience fun and easy. Enjoy discovery and exploration of the world through this app!",
-          "Next",
+          "welcome-first".tr(),
+          "next".tr(),
           () => _pageController.nextPage(
               duration: const Duration(microseconds: 250),
               curve: Curves.easeIn)),
       _page(
           AssetsVariable.onboarding_3,
           2,
-          "We strive to provide the best services and information to facilitate your journey",
-          "Start", () {
+          "welcome-second".tr(),
+          "start".tr(), () {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -64,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Scaffold(
           body: PageView(
         controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: widgets.toList(),
       )),
     );
@@ -81,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Flexible(
-                child: Text('VoyageMate',
+                child: Text('app-name'.tr(),
                     style: Theme.of(context)
                         .textTheme
                         .headline1

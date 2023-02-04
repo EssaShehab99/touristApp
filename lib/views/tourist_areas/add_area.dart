@@ -1,17 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/area.dart';
-import 'package:tourist_app/data/network/data_response.dart';
-import 'package:tourist_app/data/providers/area_provider.dart';
-import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/utils/extension.dart';
-import 'package:tourist_app/views/shared/button_widget.dart';
-import 'package:tourist_app/views/shared/constants.dart';
-import 'package:tourist_app/views/shared/dropdown_field_widget.dart';
-import 'package:tourist_app/views/shared/image_field_widget.dart';
-import 'package:tourist_app/views/shared/shared_components.dart';
-import 'package:tourist_app/views/shared/shared_values.dart';
-import 'package:tourist_app/views/shared/text_field_widget.dart';
+import '/data/models/area.dart';
+import '/data/network/data_response.dart';
+import '/data/providers/area_provider.dart';
+import '/data/providers/auth_provider.dart';
+import '/data/utils/extension.dart';
+import '/views/shared/button_widget.dart';
+import '/views/shared/constants.dart';
+import '/views/shared/dropdown_field_widget.dart';
+import '/views/shared/image_field_widget.dart';
+import '/views/shared/shared_components.dart';
+import '/views/shared/shared_values.dart';
+import '/views/shared/text_field_widget.dart';
 
 class AddArea extends StatefulWidget {
   const AddArea({Key? key, this.area}) : super(key: key);
@@ -55,7 +56,7 @@ class _AddAreaState extends State<AddArea> {
         child: Scaffold(
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Add Tourist Areas"),
+          SharedComponents.appBar(title: "add-tourist-areas".tr()),
           Expanded(
               child: Form(
             key: _formKey,
@@ -67,31 +68,31 @@ class _AddAreaState extends State<AddArea> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: name,
-                      hintText: "Name",
+                      hintText: "name".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: details,
-                      hintText: "Details",
+                      hintText: "details".tr(),
                       maxLines: 10,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: DropdownFieldWidget(
-                    hintText: "City",
+                    hintText: "city".tr(),
                     items: cities,
                     value: city,
                     onChanged: (value) {
@@ -101,7 +102,7 @@ class _AddAreaState extends State<AddArea> {
                       if (value != null) {
                         return null;
                       }
-                      return "This field is required";
+                      return "field-required".tr();
                     },
                     keyDropDown: GlobalKey(),
                   ),
@@ -109,14 +110,14 @@ class _AddAreaState extends State<AddArea> {
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: ImageFieldWidget(
-                      hintText: "Images",
+                      hintText: "images".tr(),
                       max: 5,
                       values: images,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 const SizedBox(height: SharedValues.padding * 2),
@@ -148,12 +149,12 @@ class _AddAreaState extends State<AddArea> {
                           SharedComponents.showSnackBar(
                               context,
                               widget.area == null
-                                  ? "Area added success"
-                                  : "Area edit success");
+                                  ? "area-added-success".tr()
+                                  : "area-edit-success".tr());
                         } else {
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(
-                              context, "Error occurred !!",
+                              context, "error-occurred".tr(),
                               backgroundColor:
                                   // ignore: use_build_context_synchronously
                                   Theme.of(context).colorScheme.error);
@@ -161,7 +162,7 @@ class _AddAreaState extends State<AddArea> {
                       }
                     },
                     child: Text(
-                      "Save",
+                      "save".tr(),
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),

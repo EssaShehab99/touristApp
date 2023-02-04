@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/event.dart';
 import 'package:tourist_app/data/network/data_response.dart';
@@ -5,7 +6,7 @@ import 'package:tourist_app/data/providers/auth_provider.dart';
 import 'package:tourist_app/data/providers/event_provider.dart';
 import 'package:tourist_app/data/utils/enum.dart';
 import 'package:tourist_app/views/events/add_event.dart';
-import 'package:intl/intl.dart';
+import 'package:tourist_app/views/events/event_details.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
 
 import '/views/shared/shared_components.dart';
@@ -38,7 +39,7 @@ class _ViewEventsState extends State<ViewEvents> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Events"),
+          SharedComponents.appBar(title: "events".tr()),
           Expanded(
               child: Selector<EventProvider, List<Event>>(
             selector: (p0, p1) => p1.events,
@@ -47,7 +48,13 @@ class _ViewEventsState extends State<ViewEvents> {
               itemCount: value.length,
               itemBuilder: (context, index) => InkWell(
                 borderRadius: BorderRadius.circular(SharedValues.borderRadius),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetails(event: value[index]),
+                      ));
+                },
                 onLongPress: () {
                   SharedComponents.showBottomSheet(context,
                       child: Column(
@@ -65,7 +72,7 @@ class _ViewEventsState extends State<ViewEvents> {
                                             AddEvent(event: value[index])));
                               },
                               child: Text(
-                                "Edit",
+                                "edit".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
@@ -80,26 +87,26 @@ class _ViewEventsState extends State<ViewEvents> {
                                     context,
                                     listen: false);
 
-                                Result result = await provider
-                                    .deleteEvent(value[index].id);
+                                Result result =
+                                    await provider.deleteEvent(value[index].id);
 
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
-                                      context, "Service deleted");
+                                      context, "service-deleted".tr());
                                 } else {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
-                                    // ignore: use_build_context_synchronously
-                                      context,
-                                      "Error occurred !!",
-                                      backgroundColor:
                                       // ignore: use_build_context_synchronously
-                                      Theme.of(context).colorScheme.error);
+                                      context,
+                                      "error-occurred".tr(),
+                                      backgroundColor:
+                                          // ignore: use_build_context_synchronously
+                                          Theme.of(context).colorScheme.error);
                                 }
                               },
                               child: Text(
-                                "Delete",
+                                "delete".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
@@ -129,7 +136,7 @@ class _ViewEventsState extends State<ViewEvents> {
                           child: Row(
                         children: [
                           Container(
-                            height: 20,
+                            height: 30,
                             width: 60,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -167,7 +174,8 @@ class _ViewEventsState extends State<ViewEvents> {
                           child: Align(
                             alignment: AlignmentDirectional.centerStart,
                             child: Padding(
-                              padding: const EdgeInsets.all(SharedValues.padding),
+                              padding:
+                                  const EdgeInsets.all(SharedValues.padding),
                               child: Text(
                                 value[index].details,
                                 style: Theme.of(context).textTheme.labelMedium,
@@ -183,7 +191,7 @@ class _ViewEventsState extends State<ViewEvents> {
                         child: Align(
                           alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                              "period: ${DateFormat("yyyy-MM-dd").format(value[index].from)}/ ${DateFormat("yyyy-MM-dd").format(value[index].to)}",
+                              "${"period".tr()}: ${DateFormat("yyyy-MM-dd").format(value[index].from)}/ ${DateFormat("yyyy-MM-dd").format(value[index].to)}",
                               style: Theme.of(context).textTheme.subtitle2),
                         ),
                       )),

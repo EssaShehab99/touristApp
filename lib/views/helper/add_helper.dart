@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/helper.dart';
@@ -32,8 +33,8 @@ class _AddHelperState extends State<AddHelper> {
   DropdownMenuItemModel? gender;
   List<String> images = [];
   List<DropdownMenuItemModel> genders = [
-    DropdownMenuItemModel(id: 1, text: "Male"),
-    DropdownMenuItemModel(id: 2, text: "Female"),
+    DropdownMenuItemModel(id: 1, text: "male"),
+    DropdownMenuItemModel(id: 2, text: "female"),
   ];
   final _formKey = GlobalKey<FormState>();
   @override
@@ -65,7 +66,7 @@ class _AddHelperState extends State<AddHelper> {
         child: Scaffold(
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Add Service"),
+          SharedComponents.appBar(title: "add-service".tr()),
           Expanded(
               child: Form(
                 key: _formKey,
@@ -77,25 +78,25 @@ class _AddHelperState extends State<AddHelper> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: name,
-                      hintText: "Name",
+                      hintText: "name".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: email,
-                      hintText: "Email",
+                      hintText: "email".tr(),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null) {
-                          return "This field is required";
+                          return "field-required".tr();
                         } else if (!Utils.validateEmail(value)) {
-                          return "Invalid email";
+                          return "invalid-email".tr();
                         }
                         return null;
                       }),
@@ -104,12 +105,12 @@ class _AddHelperState extends State<AddHelper> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                     controller: phone,
-                    hintText: "Phone",
+                    hintText: "phone".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }
                   ),
                 ),
@@ -117,14 +118,14 @@ class _AddHelperState extends State<AddHelper> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                     controller: age,
-                    hintText: "Age",
+                    hintText: "age".tr(),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: DropdownFieldWidget(
                     items: genders,
-                    hintText: "Gender",
+                    hintText: "gender".tr(),
                     value: gender,
                     keyDropDown: GlobalKey(),
                     onChanged: (value) {
@@ -134,7 +135,7 @@ class _AddHelperState extends State<AddHelper> {
                         if (value != null ) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       },
                   ),
                 ),
@@ -142,22 +143,22 @@ class _AddHelperState extends State<AddHelper> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                     controller: nationality,
-                    hintText: "Nationality",validator: (value) {
+                    hintText: "nationality".tr(),validator: (value) {
                     if (value != null && value.isNotEmpty) {
                       return null;
                     }
-                    return "This field is required";
+                    return "field-required".tr();
                   }
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
-                  child: ImageFieldWidget(hintText: "Images", values: images, max: 1,
+                  child: ImageFieldWidget(hintText: "images".tr(), values: images, max: 1,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 const SizedBox(height: SharedValues.padding*2),
@@ -191,13 +192,13 @@ class _AddHelperState extends State<AddHelper> {
                           SharedComponents.showSnackBar(
                               context,
                               widget.helper == null
-                                  ? "Helper added success"
-                                  : "Helper edit success");
+                                  ? "helper-added-success".tr()
+                                  : "helper-edit-success".tr());
                         } else {
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(
                               context,
-                              "Error occurred !!",
+                              "error-occurred".tr(),
                               backgroundColor:
                               // ignore: use_build_context_synchronously
                               Theme.of(context).colorScheme.error);
@@ -206,7 +207,7 @@ class _AddHelperState extends State<AddHelper> {
                     },
                     withBorder: false,
                     child: Text(
-                      "Save",
+                      "save".tr(),
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),

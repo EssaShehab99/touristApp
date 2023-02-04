@@ -1,11 +1,10 @@
-import 'package:tourist_app/views/auth/sign_in_screen.dart';
-import 'package:tourist_app/views/home/home_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-import '/data/network/data_response.dart';
+import '/views/auth/sign_in_screen.dart';
+
 import '/data/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/views/auth/sign_up_screen.dart';
 import '/views/shared/button_widget.dart';
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
@@ -49,7 +48,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Verification code "),
+          SharedComponents.appBar(title: "verify-code".tr()),
           Expanded(
               child: ListView(
             children: [
@@ -58,7 +57,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Please enter the verification code sent for the email:\n\n user-email"
+                        "enter-code".tr()
                             .replaceAll(
                                 RegExp(r'user-email'),
                                 Provider.of<AuthProvider>(context,
@@ -87,7 +86,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             onChanged: (str) {
                               if (str.length == 1 &&
                                   controller != controllers.last) {
-                                debugPrint("index");
                                 FocusScope.of(context).nextFocus();
                               } else if (controller == controllers.last) {
                                 FocusScope.of(context).unfocus();
@@ -126,11 +124,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
                           (_) => false);
                     } else {
                       // ignore: use_build_context_synchronously
-                      SharedComponents.showSnackBar(context, "OTP not Correct");
+                      SharedComponents.showSnackBar(context, "otp-not-correct".tr());
                     }
                   },
                   child: Text(
-                    "Verify",
+                    "verify".tr(),
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),
@@ -139,13 +137,13 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 padding: const EdgeInsets.all(SharedValues.padding),
                 child: Row(
                   children: [
-                    Text("The code has not arrived",
+                    Text("code-not-arrived".tr(),
                         style: Theme.of(context).textTheme.bodyText2),
                     TextButton(
                       onPressed: () async {
                         Navigator.pop(context);
                       },
-                      child: Text("Resend the code?",
+                      child: Text("${"resend-code".tr()}?",
                           style: Theme.of(context).textTheme.headline5),
                     )
                   ],

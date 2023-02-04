@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/user.dart';
 import 'package:tourist_app/data/network/data_response.dart';
@@ -70,7 +71,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Sign up"),
+          SharedComponents.appBar(title: "sign-up".tr(),
+              changeLanguage: ()=> setState(() { })),
           Expanded(
               child: Form(
             key: _formKey,
@@ -88,25 +90,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: name,
-                      hintText: "Name",
+                      hintText: "name".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: email,
-                      hintText: "Email",
+                      hintText: "email".tr(),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null) {
-                          return "This field is required";
+                          return "field-required".tr();
                         } else if (!Utils.validateEmail(value)) {
-                          return "Invalid email";
+                          return "invalid-email".tr();
                         }
                         return null;
                       }),
@@ -115,18 +117,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: phone,
-                      hintText: "Phone",
+                      hintText: "phone".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: DropdownFieldWidget(
-                    hintText: "City",
+                    hintText: "city".tr(),
                     items: cities,
                     value: city,
                     onChanged: (value) {
@@ -136,7 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value != null) {
                         return null;
                       }
-                      return "This field is required";
+                      return "field-required".tr();
                     },
                     keyDropDown: GlobalKey(),
                   ),
@@ -145,26 +147,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                       controller: age,
-                      hintText: "Age",
+                      hintText: "age".tr(),
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           return null;
                         }
-                        return "This field is required";
+                        return "field-required".tr();
                       }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                     controller: password,
-                    hintText: "Password",
+                    hintText: "password".tr(),
                     textInputAction: TextInputAction.none,
                     obscureText: true,
                     validator: (value) {
                       if (value != null && value.isNotEmpty) {
                         return null;
                       }
-                      return "This field is required";
+                      return "field-required".tr();
                     },
                   ),
                 ),
@@ -172,14 +174,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: TextFieldWidget(
                     controller: confirmPassword,
-                    hintText: "Confirm Password",
+                    hintText: "confirm-password".tr(),
                     textInputAction: TextInputAction.none,
                     obscureText: true,
                     validator: (value) {
                       if (confirmPassword.text == password.text) {
                         return null;
                       }
-                      return "كلمة المرور غير متطابقة";
+                      return "password-not-match".tr();
                     },
                   ),
                 ),
@@ -213,14 +215,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               (_) => false);
                         } else if (result is Error &&
                             result.exception is ExistUserException) {
-                          String message = "User exist please sign in.";
+                          String message = "user-exist".tr();
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(context, message,
                               backgroundColor:
                                   // ignore: use_build_context_synchronously
                                   Theme.of(context).colorScheme.error);
                         } else if (result is Error) {
-                          String message = "Error occurred !!";
+                          String message = "error-occurred".tr();
                           // ignore: use_build_context_synchronously
                           SharedComponents.showSnackBar(context, message,
                               backgroundColor:
@@ -230,7 +232,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                     },
                     child: Text(
-                      "Sign up",
+                      "sign-up".tr(),
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),
@@ -239,7 +241,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.all(SharedValues.padding),
                   child: Row(
                     children: [
-                      Text("I already have an account",
+                      Text("already-have-account".tr(),
                           style: Theme.of(context).textTheme.bodyText2),
                       TextButton(
                         onPressed: () {
@@ -248,7 +250,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               MaterialPageRoute(
                                   builder: (context) => const SignInScreen()));
                         },
-                        child: Text("Sign in?",
+                        child: Text("${"sign-in".tr()}?",
                             style: Theme.of(context).textTheme.headline5),
                       )
                     ],

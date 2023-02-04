@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '/views/shared/shared_values.dart';
 
@@ -15,7 +16,7 @@ class LoadingWidget extends StatelessWidget {
             color: Theme.of(context).primaryColor,
           )),
           const SizedBox(height: SharedValues.padding * 5),
-          Text("Loading data...", style: Theme.of(context).textTheme.button)
+          Text("${"loading-data".tr()}...", style: Theme.of(context).textTheme.button)
         ],
       ),
     );

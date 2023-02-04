@@ -9,7 +9,7 @@ class ThemeApp {
   static ThemeApp get instance => _instance;
 
   static ThemeData light = ThemeData(
-      fontFamily: "app_font_reg",
+      fontFamily: "Cairo",
       primaryColor: const Color(0xFF2E9498),
       hintColor: const Color(0xFFEAEAEA),
       backgroundColor: const Color(0xFFFDFAED),

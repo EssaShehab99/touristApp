@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tourist_app/views/shared/shared_components.dart';
 
@@ -38,7 +39,7 @@ class _ImageFieldWidgetState extends State<ImageFieldWidget> {
     if ((widget.values?.length ?? 0) > (widget.max ?? 10)) {
       // ignore: use_build_context_synchronously
       SharedComponents.showSnackBar(
-          context, "Maximum number of photos: ${widget.max ?? 10}");
+          context, "${"maximum-photos".tr()}: ${widget.max ?? 10}");
     }
   }
 

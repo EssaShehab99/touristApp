@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/network/data_response.dart';
@@ -45,7 +46,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       child: Scaffold(
         body: Column(
           children: [
-            SharedComponents.appBar(title: "Forget Password"),
+            SharedComponents.appBar(title: "forget-password".tr()),
             Expanded(
                 flex: 2,
                 child: Form(
@@ -56,46 +57,51 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       SizedBox(
                         height: 200,
                         child: Center(
-                            child: Text("Forget Password",
-                                style: Theme.of(context).textTheme.headline1?.copyWith(color: Theme.of(context).primaryColor))),
+                            child: Text("forget-password".tr(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    ?.copyWith(
+                                        color:
+                                            Theme.of(context).primaryColor))),
                       ),
                       const SizedBox(height: SharedValues.padding),
                       TextFieldWidget(
                           validator: (value) {
                             if (value == null) {
-                              return "This field is required";
+                              return "field-required".tr();
                             } else if (!Utils.validateEmail(value)) {
-                              return "Invalid email";
+                              return "invalid-email".tr();
                             }
                             return null;
                           },
                           controller: emailController,
-                          hintText: "Email"),
+                          hintText: "email".tr()),
                       const SizedBox(height: SharedValues.padding),
                       TextFieldWidget(
                         controller: passwordController,
-                        hintText: "Password",
+                        hintText: "password".tr(),
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
                             return null;
                           }
-                          return "This field is required";
+                          return "field-required".tr();
                         },
                       ),
                       const SizedBox(height: SharedValues.padding),
                       TextFieldWidget(
                         controller: confirmPasswordController,
-                        hintText: "Confirm Password",
+                        hintText: "confirm-password".tr(),
                         textInputAction: TextInputAction.none,
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "This field is required";
+                            return "field-required".tr();
                           } else if (confirmPasswordController.text ==
                               passwordController.text) {
                             return null;
                           }
-                          return "كلمة المرور غير متطابقة";
+                          return "password-not-match".tr();
                         },
                       ),
                       const SizedBox(height: SharedValues.padding * 3),
@@ -120,11 +126,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             } else {
                               // ignore: use_build_context_synchronously
                               SharedComponents.showSnackBar(
-                                  context, "An error occurred");
+                                  context, "error-occurred".tr());
                             }
                           }
                         },
-                        child: Text("Save",
+                        child: Text("save".tr(),
                             style: Theme.of(context).textTheme.button),
                       ),
                       const SizedBox(height: SharedValues.padding),
@@ -132,7 +138,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         padding: const EdgeInsets.all(SharedValues.padding),
                         child: Row(
                           children: [
-                            Text("I already have an account",
+                            Text("already-have-account".tr(),
                                 style: Theme.of(context).textTheme.bodyText2),
                             TextButton(
                               onPressed: () async {
@@ -142,7 +148,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                         builder: (context) =>
                                             const SignInScreen()));
                               },
-                              child: Text("Sign in?",
+                              child: Text("${"sign-in".tr()}?",
                                   style: Theme.of(context).textTheme.headline5),
                             )
                           ],

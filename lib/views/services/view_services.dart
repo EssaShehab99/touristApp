@@ -1,16 +1,14 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/service.dart';
-import 'package:tourist_app/data/network/data_response.dart';
-import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/providers/service_provider.dart';
-import 'package:tourist_app/data/utils/enum.dart';
-import 'package:tourist_app/views/helper/view_helper.dart';
-import 'package:tourist_app/views/services/add_service.dart';
-import 'package:tourist_app/views/shared/button_widget.dart';
-import 'package:tourist_app/views/shared/image_network.dart';
+import '/data/models/service.dart';
+import '/data/network/data_response.dart';
+import '/data/providers/auth_provider.dart';
+import '/data/providers/service_provider.dart';
+import '/data/utils/enum.dart';
+import '/views/helper/view_helper.dart';
+import '/views/services/add_service.dart';
+import '/views/shared/button_widget.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';
@@ -43,7 +41,7 @@ class _ViewServicesState extends State<ViewServices> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Column(
         children: [
-          SharedComponents.appBar(title: "Services"),
+          SharedComponents.appBar(title: "services".tr()),
           Expanded(
               child: Selector<ServiceProvider, List<Service>>(
             selector: (p0, p1) => p1.services,
@@ -77,7 +75,7 @@ class _ViewServicesState extends State<ViewServices> {
                                             AddService(service: value[index])));
                               },
                               child: Text(
-                                "Edit",
+                                "edit".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
@@ -98,20 +96,20 @@ class _ViewServicesState extends State<ViewServices> {
                                 if (result is Success) {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
-                                      context, "Service deleted");
+                                      context, "service-deleted".tr());
                                 } else {
                                   // ignore: use_build_context_synchronously
                                   SharedComponents.showSnackBar(
                                       // ignore: use_build_context_synchronously
                                       context,
-                                      "Error occurred !!",
+                                      "error-occurred".tr(),
                                       backgroundColor:
                                           // ignore: use_build_context_synchronously
                                           Theme.of(context).colorScheme.error);
                                 }
                               },
                               child: Text(
-                                "Delete",
+                                "delete".tr(),
                                 style: Theme.of(context).textTheme.button,
                               ),
                             ),
