@@ -2,18 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tourist_app/data/models/helper.dart';
+import 'package:tourist_app/views/requests/add_request.dart';
+import 'package:tourist_app/views/shared/button_widget.dart';
 import 'package:tourist_app/views/shared/shared_components.dart';
+import 'package:tourist_app/views/shared/text_field_widget.dart';
 import '/views/shared/assets_variables.dart';
 import '/views/shared/shared_values.dart';
 
-class HelperProfileScreen extends StatefulWidget {
-  const HelperProfileScreen({Key? key, required this.helper}) : super(key: key);
+class HelperProfile extends StatefulWidget {
+  const HelperProfile({Key? key, required this.helper}) : super(key: key);
   final Helper helper;
   @override
-  State<HelperProfileScreen> createState() => _HelperProfileScreenState();
+  State<HelperProfile> createState() => _HelperProfileState();
 }
 
-class _HelperProfileScreenState extends State<HelperProfileScreen> {
+class _HelperProfileState extends State<HelperProfile> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,7 +67,22 @@ class _HelperProfileScreenState extends State<HelperProfileScreen> {
                   _buildInfo("nationality".tr(), widget.helper.nationality),
                 ],
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(SharedValues.padding),
+              child: ButtonWidget(
+                withBorder: false,
+                minWidth: double.infinity,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddRequest(value: widget.helper)));
+                },
+                child: Text(
+                  "request".tr(),
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -94,7 +112,8 @@ class _HelperProfileScreenState extends State<HelperProfileScreen> {
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Padding(
-                padding: const EdgeInsets.all(SharedValues.padding),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: SharedValues.padding),
                 child: Text(
                   details,
                   style: Theme.of(context).textTheme.headlineLarge,

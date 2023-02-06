@@ -9,5 +9,6 @@ class Endpoints {
   static const helpers = 'helpers';
   static const areas = 'areas';
   static const event = 'events';
+  static const request = 'request';
 
 }

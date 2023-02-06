@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:tourist_app/data/local/sharedpref_helper/preferences.dart';
 import 'package:tourist_app/data/providers/area_provider.dart';
 import 'package:tourist_app/data/providers/event_provider.dart';
+import 'package:tourist_app/data/providers/request_provider.dart';
 import 'package:tourist_app/data/providers/service_provider.dart';
 import 'package:tourist_app/views/auth/sign_in_screen.dart';
 import 'package:tourist_app/views/events/add_event.dart';
@@ -51,6 +52,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AppStateManager()),
         ChangeNotifierProvider(create: (_) => AuthProvider()..setUser(user)),
+        ChangeNotifierProxyProvider<AuthProvider, RequestProvider>(
+            create: (context) => RequestProvider(
+                Provider.of<AuthProvider>(context, listen: false).user),
+            update: (context, auth, _) => RequestProvider(auth.user)),
         ChangeNotifierProxyProvider<AuthProvider, EventProvider>(
             create: (context) => EventProvider(
                 Provider.of<AuthProvider>(context, listen: false).user),

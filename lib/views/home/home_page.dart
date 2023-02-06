@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tourist_app/data/utils/enum.dart';
 import 'package:tourist_app/views/events/view_events.dart';
+import 'package:tourist_app/views/requests/view_request.dart';
 import 'package:tourist_app/views/services/view_services.dart';
 import 'package:tourist_app/views/tourist_areas/view_areas.dart';
 import '/views/shared/assets_variables.dart';
@@ -77,8 +79,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: _buildButtonWidget(
                       onPressed: () {},
-                      text: "about-us".tr(),
-                      image: AssetsVariable.info),
+                      text: "hotels".tr(),
+                      image: AssetsVariable.hotel),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Row(
+              children: [
+                Expanded(
+                  child: _buildButtonWidget(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ViewRequest(requestType: RequestType.helper,)));
+                      },
+                      text: "service-requests".tr(),
+                      image: AssetsVariable.data),
+                ),
+                Expanded(
+                  child: _buildButtonWidget(
+                      onPressed: () {},
+                      text: "hotel-requests".tr(),
+                      image: AssetsVariable.data),
                 ),
               ],
             ),

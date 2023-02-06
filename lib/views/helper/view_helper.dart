@@ -9,7 +9,7 @@ import 'package:tourist_app/data/providers/auth_provider.dart';
 import 'package:tourist_app/data/providers/service_provider.dart';
 import 'package:tourist_app/data/utils/enum.dart';
 import 'package:tourist_app/views/helper/add_helper.dart';
-import 'package:tourist_app/views/helper/helper_profile_screen.dart';
+import 'package:tourist_app/views/helper/helper_profile.dart';
 import 'package:tourist_app/views/shared/button_widget.dart';
 
 import '/views/shared/shared_components.dart';
@@ -56,7 +56,7 @@ class _ViewHelperState extends State<ViewHelper> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HelperProfileScreen(
+                          builder: (context) => HelperProfile(
                                 helper: value[index],
                               )));
                 },
