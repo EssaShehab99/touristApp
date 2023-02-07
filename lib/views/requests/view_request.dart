@@ -45,7 +45,7 @@ class _ViewRequestState extends State<ViewRequest> {
           SharedComponents.appBar(title: "requests".tr()),
           Expanded(
               child: Selector<RequestProvider, List<Request>>(
-            selector: (p0, p1) => p1.requests,
+            selector: (_, p1) => p1.requests,
             builder: (context, value, _) => ListView.builder(
               padding: const EdgeInsets.all(SharedValues.padding),
               itemCount: value.length,
