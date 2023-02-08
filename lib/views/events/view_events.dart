@@ -55,7 +55,7 @@ class _ViewEventsState extends State<ViewEvents> {
                         builder: (context) => EventDetails(event: value[index]),
                       ));
                 },
-                onLongPress: () {
+                onLongPress: authProvider?.userRole != UserRole.admin? null: () {
                   SharedComponents.showBottomSheet(context,
                       child: Column(
                         children: [

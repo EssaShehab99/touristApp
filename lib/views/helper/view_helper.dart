@@ -60,7 +60,7 @@ class _ViewHelperState extends State<ViewHelper> {
                                 helper: value[index],
                               )));
                 },
-                onLongPress: () {
+                onLongPress: authProvider?.userRole != UserRole.admin? null: () {
                   SharedComponents.showBottomSheet(context,
                       child: Column(
                         children: [

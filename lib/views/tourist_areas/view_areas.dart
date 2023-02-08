@@ -57,7 +57,7 @@ class _ViewAreasState extends State<ViewAreas> {
                         builder: (context) => AreaDetails(area: value[index]),
                       ));
                 },
-                onLongPress: () {
+                onLongPress:authProvider?.userRole != UserRole.admin? null:  () {
                   SharedComponents.showBottomSheet(context,
                       child: Column(
                         children: [

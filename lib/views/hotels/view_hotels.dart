@@ -59,7 +59,7 @@ class _ViewHotelsState extends State<ViewHotels> {
                               HotelDetails(hotel: value[index]),
                         ));
                   },
-                  onLongPress: () {
+                  onLongPress: authProvider?.userRole != UserRole.admin? null:  () {
                     SharedComponents.showBottomSheet(context,
                         child: Column(
                           children: [
