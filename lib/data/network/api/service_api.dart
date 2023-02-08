@@ -160,4 +160,14 @@ class ServiceApi {
       rethrow;
     }
   }
+  Future<QueryDocumentSnapshot<Map<String, dynamic>>?> getHelper(int id) async {
+    try {
+      final response = await _fireStore.collection(Endpoints.helpers)
+          .where("id",isEqualTo: id)
+          .get();
+      return response.docs.firstOrNull;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

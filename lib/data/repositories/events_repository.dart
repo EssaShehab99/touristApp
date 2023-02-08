@@ -6,9 +6,9 @@ import 'package:tourist_app/data/utils/utils.dart';
 class EventsRepository {
   final EventApi _eventApi;
   EventsRepository(this._eventApi);
-  Future<Result> addEvent(Event area) async {
+  Future<Result> addEvent(Event event) async {
     try {
-      String? id = await _eventApi.addEvent(area.toJson());
+      String? id = await _eventApi.addEvent(event.toJson());
       return Success(id);
     } catch (e) {
       return Error(e);

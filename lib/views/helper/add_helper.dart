@@ -66,7 +66,7 @@ class _AddHelperState extends State<AddHelper> {
         child: Scaffold(
       body: Column(
         children: [
-          SharedComponents.appBar(title: "add-service".tr()),
+          SharedComponents.appBar(title: "add-helper".tr()),
           Expanded(
               child: Form(
                 key: _formKey,

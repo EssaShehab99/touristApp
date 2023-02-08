@@ -11,12 +11,14 @@ class Request {
   RequestType requestType;
   int typeID;
   RequestStatus status;
+  dynamic value;
 
   Request(
       {required this.id,
       required this.from,
       required this.to,
       required this.phone,
+       this.value,
       required this.requestType,
       required this.typeID,
       required this.details,
@@ -32,7 +34,7 @@ class Request {
       phone: json["phone"],
       details: json["details"],
       requestType: (){
-        if(json["type"]==RequestType.hotel.name){
+        if(json["requestType"]==RequestType.hotel.name){
           return RequestType.hotel;
         }
         else{

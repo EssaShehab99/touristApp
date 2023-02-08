@@ -20,7 +20,7 @@
   "age": "العمر",
   "user-exist": "المستخدم موجود الرجاء تسجيل الدخول",
   "verify-code": "رمز التحقق",
-  "enter-code": "الرجاء إدخال رمز التحقق المرسل للبريد الإلكتروني:\\n\\n user-email",
+  "enter-code": "الرجاء إدخال رمز التحقق المرسل للبريد الإلكتروني:\n\n user-email",
   "otp-not-correct": "OTP غير صحيح",
   "verify": "تأكيد",
   "code-not-arrived": "لم يصل الرمز",
@@ -156,5 +156,33 @@
   "adhdhibiyah": "الأضحية",
   "wedalnkil": "ود النكيل",
   "ainalbaraha": "عين البراحة",
-  "shokhaib": "شخير"
+  "shokhaib": "شخير",
+  "hotels": "فنادق",
+  "note": "ملاحظة",
+  "hotel-requests": "طلبات الفنادق",
+  "service-requests": "طلبات الخدمات",
+  "is-home-you": "يوجد لديك منزل للعامل",
+  "no": "لا",
+  "yes": "نعم",
+  "request-added-success": "تم الطلب بنجاح",
+  "accept": "موافقة",
+  "reject": "رفض",
+  "requests": "طلبات",
+  "request-accepted-success": "تمت موافقة الطلب",
+  "request-reject": "تم رفض الطلب",
+  "accepted": "موافق",
+  "rejected": "مرفوض",
+  "helper": "Helper",
+  "have-house": "لدي منزل للعامل",
+  "requester": "صاحب الطلب",
+  "hotel-added-success": "تم اضافة الفندق",
+  "hotel-edit-success": "تم تعديل الفندق",
+  "hotel": "فندق",
+  "remember-password": "أتذكر كلمة المرور",
+  "reset": "إعادة تعيين",
+  "add-helper": "إضافة مساعد",
+  "add-request": "إضافة طلب"
+
+
+
 }

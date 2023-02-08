@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:tourist_app/data/models/event.dart';
+import 'package:tourist_app/data/models/helper.dart';
+import 'package:tourist_app/data/models/hotel.dart';
 import 'package:tourist_app/data/models/request.dart';
 import 'package:tourist_app/data/network/data_response.dart';
 import 'package:tourist_app/data/providers/auth_provider.dart';
@@ -119,7 +121,7 @@ class _ViewRequestState extends State<ViewRequest> {
                       ));
                 },
                 child: Container(
-                  height: 150,
+                  height: 220,
                   width: double.infinity,
                   padding: const EdgeInsets.all(SharedValues.padding),
                   margin: const EdgeInsets.all(SharedValues.padding),
@@ -136,53 +138,64 @@ class _ViewRequestState extends State<ViewRequest> {
                       ]),
                   child: Column(
                     children: [
-                      Expanded(
-                          child: Row(
-                        children: [
-                          Text(value[index].status == RequestStatus.accept
-                              ? "accept".tr()
-                              : value[index].status == RequestStatus.reject
-                                  ? "reject".tr()
-                                  : ""),
-                          Expanded(
-                            child: Center(
-                              child: Text(value[index].userName,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline3
-                                      ?.copyWith(
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.bold)),
-                            ),
-                          ),
-                        ],
-                      )),
+                      Text("${"requester".tr()}: ${value[index].userName}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3
+                              ?.copyWith(
+                              fontSize: 18,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold)),
+                      if(value[index].value is Helper)
+                      Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        "${"helper".tr()}: ${(value[index].value as Helper?)?.name}",
+                        style: Theme.of(context).textTheme.subtitle2),
+                      ),
+                      if(value[index].value is Hotel)
+                      Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        "${"hotel".tr()}: ${(value[index].value as Hotel?)?.name}",
+                        style: Theme.of(context).textTheme.subtitle2),
+                      ),
+                      Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        "${"period".tr()}: ${DateFormat("yyyy-MM-dd").format(value[index].from)}/ ${DateFormat("yyyy-MM-dd").format(value[index].to)}",
+                        style: Theme.of(context).textTheme.subtitle2),
+                      ),
+                      if (value[index].isWithHome==true)
+                        Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Text(
+                          "have-house".tr(),
+                          style:
+                          Theme.of(context).textTheme.labelMedium),
+                        ),
                       Expanded(
                           flex: 3,
                           child: Align(
-                            alignment: AlignmentDirectional.centerStart,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.all(SharedValues.padding),
-                              child: Text(
-                                value[index].details,
-                                style: Theme.of(context).textTheme.labelMedium,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                              ),
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(
+                              value[index].details,
+                              style: Theme.of(context).textTheme.labelMedium,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
                           )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: SharedValues.padding),
-                        child: Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Text(
-                              "${"period".tr()}: ${DateFormat("yyyy-MM-dd").format(value[index].from)}/ ${DateFormat("yyyy-MM-dd").format(value[index].to)}",
-                              style: Theme.of(context).textTheme.subtitle2),
-                        ),
-                      )),
+                      Align(
+                        alignment: AlignmentDirectional.bottomStart,
+                        child: Text(
+                            value[index].status == RequestStatus.accept
+                                ? "accepted".tr()
+                                : value[index].status ==
+                                RequestStatus.reject
+                                ? "rejected".tr()
+                                : "",
+                            style: Theme.of(context).textTheme.subtitle2),
+                      )
                     ],
                   ),
                 ),

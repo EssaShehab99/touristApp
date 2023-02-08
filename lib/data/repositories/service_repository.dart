@@ -81,4 +81,17 @@ class ServiceRepository {
       return Error(e);
     }
   }
+  Future<Result> getHelper(int id) async {
+    try {
+      final response = await _serviceApi.getHelper(id);
+
+      if(response?.data()!=null){
+        Helper helper=Helper.fromJson(response!.data());
+        return Success(helper);
+      }
+      return Error();
+    } catch (e) {
+      return Error(e);
+    }
+  }
 }

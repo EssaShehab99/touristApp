@@ -10,5 +10,6 @@ class Endpoints {
   static const areas = 'areas';
   static const event = 'events';
   static const request = 'request';
+  static const hotel = 'hotel';
 
 }

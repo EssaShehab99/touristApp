@@ -147,7 +147,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               MaterialPageRoute(
                                   builder: (context) => const SignUpScreen()));
                         },
-                        child: Text("${"sign-in".tr()}?",
+                        child: Text("${"sign-up".tr()}?",
                             style: Theme.of(context).textTheme.headline5),
                       )
                     ],

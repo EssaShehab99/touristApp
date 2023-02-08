@@ -130,7 +130,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             }
                           }
                         },
-                        child: Text("save".tr(),
+                        child: Text("reset".tr(),
                             style: Theme.of(context).textTheme.button),
                       ),
                       const SizedBox(height: SharedValues.padding),
@@ -138,7 +138,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         padding: const EdgeInsets.all(SharedValues.padding),
                         child: Row(
                           children: [
-                            Text("already-have-account".tr(),
+                            Text("remember-password".tr(),
                                 style: Theme.of(context).textTheme.bodyText2),
                             TextButton(
                               onPressed: () async {

@@ -155,7 +155,7 @@ class _ViewServicesState extends State<ViewServices> {
                                     child: Text(value[index].details,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium))),
+                                            .labelMedium,overflow: TextOverflow.ellipsis,))),
                           ],
                         ),
                       )),

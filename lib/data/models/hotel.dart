@@ -4,11 +4,13 @@ class Hotel {
   String details;
   String city;
   int userID;
+  List<String> images;
 
   Hotel(
       {required this.id,
       required this.name,
-      required this.details,
+        required this.images,
+        required this.details,
       required this.city,
       required this.userID});
 
@@ -19,7 +21,7 @@ class Hotel {
       details: json["details"],
       city: json["city"],
       userID: json["userID"],
-    );
+        images: List.from(json["images"]));
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +30,7 @@ class Hotel {
       "name": name,
       "details": details,
       "city": city,
+      "images": images,
       "userID": userID,
     };
   }

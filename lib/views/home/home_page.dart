@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:tourist_app/data/providers/auth_provider.dart';
 import 'package:tourist_app/data/utils/enum.dart';
 import 'package:tourist_app/views/events/view_events.dart';
+import 'package:tourist_app/views/hotels/view_hotels.dart';
 import 'package:tourist_app/views/requests/view_request.dart';
 import 'package:tourist_app/views/services/view_services.dart';
 import 'package:tourist_app/views/tourist_areas/view_areas.dart';
@@ -21,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false).user;
     return SafeArea(
         child: Scaffold(
       body: Column(
@@ -78,13 +82,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: _buildButtonWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewHotels()));
+
+                      },
                       text: "hotels".tr(),
                       image: AssetsVariable.hotel),
                 ),
               ],
             ),
           ),
+          if(authProvider?.userRole == UserRole.admin)
           Expanded(
             flex: 3,
             child: Row(
@@ -102,7 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: _buildButtonWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ViewRequest(requestType: RequestType.hotel,)));
+                      },
                       text: "hotel-requests".tr(),
                       image: AssetsVariable.data),
                 ),

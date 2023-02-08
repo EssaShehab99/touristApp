@@ -17,7 +17,8 @@ import 'package:tourist_app/views/shared/shared_values.dart';
 import 'package:tourist_app/views/shared/text_field_widget.dart';
 
 class AddRequest extends StatefulWidget {
-  const AddRequest({Key? key, this.request, this.withHome,required this.value}) : super(key: key);
+  const AddRequest({Key? key, this.request, this.withHome, required this.value})
+      : super(key: key);
   final Request? request;
   final dynamic value;
   final bool? withHome;
@@ -58,7 +59,7 @@ class _AddRequestState extends State<AddRequest> {
         child: Scaffold(
       body: Column(
         children: [
-          SharedComponents.appBar(title: "add-service".tr()),
+          SharedComponents.appBar(title: "add-request".tr()),
           Expanded(
               child: Form(
             key: _formKey,
@@ -104,8 +105,8 @@ class _AddRequestState extends State<AddRequest> {
                       }
                       return "field-required".tr();
                     }),
+                const SizedBox(height: SharedValues.padding * 2),
                 if (widget.withHome != false) ...[
-                  const SizedBox(height: SharedValues.padding),
                   DropdownFieldWidget(
                     hintText: "${"is-home-you".tr()}?",
                     value: isWithHome,
@@ -128,7 +129,8 @@ class _AddRequestState extends State<AddRequest> {
                   minWidth: double.infinity,
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      final provider = Provider.of<RequestProvider>(context, listen: false);
+                      final provider =
+                          Provider.of<RequestProvider>(context, listen: false);
                       final request = Request(
                           id: DateTime.now().millisecondsSinceEpoch,
                           from: DateTime.parse(from.text),
@@ -136,27 +138,38 @@ class _AddRequestState extends State<AddRequest> {
                           phone: phone.text,
                           details: details.text,
                           status: RequestStatus.none,
-                          userName: Provider.of<AuthProvider>(context, listen: false).user!.name!,
-                          requestType: widget.value is Helper?RequestType.helper:RequestType.hotel,
-                          typeID: widget.value is Helper?(widget.value as Helper).id:(widget.value as Hotel).id,
+                          userName:
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .user!
+                                  .name!,
+                          requestType: widget.value is Helper
+                              ? RequestType.helper
+                              : RequestType.hotel,
+                          typeID: widget.value is Helper
+                              ? (widget.value as Helper).id
+                              : (widget.value as Hotel).id,
                           isWithHome: isWithHome?.text == items.first.text);
-                      if(widget.request!=null){
-                        request.id=widget.request!.id;
+                      if (widget.request != null) {
+                        request.id = widget.request!.id;
                       }
-                      Result result=await provider.addRequest(request,widget.value is Helper?RequestType.helper:RequestType.hotel);
+                      Result result = await provider.addRequest(
+                          request,
+                          widget.value is Helper
+                              ? RequestType.helper
+                              : RequestType.hotel);
                       if (result is Success) {
                         // ignore: use_build_context_synchronously
                         SharedComponents.showSnackBar(
-                            context,"request-added-success".tr());
-                      }else {
+                            context, "request-added-success".tr());
+                      } else {
                         // ignore: use_build_context_synchronously
                         SharedComponents.showSnackBar(
-                          // ignore: use_build_context_synchronously
+                            // ignore: use_build_context_synchronously
                             context,
                             "error-occurred".tr(),
                             backgroundColor:
-                            // ignore: use_build_context_synchronously
-                            Theme.of(context).colorScheme.error);
+                                // ignore: use_build_context_synchronously
+                                Theme.of(context).colorScheme.error);
                       }
                     }
                   },

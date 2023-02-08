@@ -180,7 +180,7 @@ class _ViewEventsState extends State<ViewEvents> {
                                 value[index].details,
                                 style: Theme.of(context).textTheme.labelMedium,
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
+                                maxLines: 2,
                               ),
                             ),
                           )),

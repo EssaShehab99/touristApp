@@ -20,7 +20,7 @@
   "age": "Age",
   "user-exist": "User exist please sign in.",
   "verify-code": "Verification code",
-  "enter-code": "Please enter the verification code sent for the email:\\n\\n user-email",
+  "enter-code": "Please enter the verification code sent for the email:\n\n user-email",
   "otp-not-correct": "OTP not correct",
   "verify": "Verify",
   "code-not-arrived": "The code has not arrived",
@@ -170,5 +170,17 @@
   "reject": "Reject",
   "requests": "Requests",
   "request-accepted-success": "Request accepted Success",
-  "request-reject": "request Reject"
+  "request-reject": "request Reject",
+  "accepted": "Accepted",
+  "rejected": "Rejected",
+  "helper": "Helper",
+  "have-house": "I have a house for a worker",
+  "requester": "Requester",
+  "hotel-added-success": "Hotel added success",
+  "hotel-edit-success": "Hotel edit success",
+  "hotel": "Hotel",
+  "remember-password": "I remember the password",
+  "reset": "Reset",
+  "add-helper": "Add Helper",
+  "add-request": "Add Request"
 }
