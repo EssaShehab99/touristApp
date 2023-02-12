@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:tourist_app/data/models/event.dart';
-import 'package:tourist_app/data/network/data_response.dart';
-import 'package:tourist_app/data/providers/auth_provider.dart';
-import 'package:tourist_app/data/providers/event_provider.dart';
-import 'package:tourist_app/data/utils/enum.dart';
-import 'package:tourist_app/views/events/add_event.dart';
-import 'package:tourist_app/views/events/event_details.dart';
-import 'package:tourist_app/views/shared/button_widget.dart';
+import '/data/models/event.dart';
+import '/data/network/data_response.dart';
+import '/data/providers/auth_provider.dart';
+import '/data/providers/event_provider.dart';
+import '/data/utils/enum.dart';
+import '/views/events/add_event.dart';
+import '/views/events/event_details.dart';
+import '/views/shared/button_widget.dart';
 
 import '/views/shared/shared_components.dart';
 import '/views/shared/shared_values.dart';

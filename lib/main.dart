@@ -23,6 +23,7 @@ import 'data/local/sharedpref_helper/preference_variable.dart';
 import 'data/models/user.dart';
 import 'data/providers/app_state_manager.dart';
 import 'firebase_options.dart';
+import 'views/auth/verify_otp.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
         home: user == null ? const SignInScreen() : const HomeScreen(),
         // home:  const SignInScreen(),
         // home: const MainScreen(),
-        // home: const VerifyOTP(),
+        // home: VerifyOTP(isSignUp: true),
       ),
     );
   }
